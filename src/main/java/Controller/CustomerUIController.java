@@ -1,5 +1,7 @@
 package Controller;
 
+import Controller.Extra.ErrorController;
+import Controller.Extra.SuccessfulController;
 import Database.JDBCConnection;
 import Models.Customer;
 import Models.Product;
@@ -13,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -77,6 +76,8 @@ public class CustomerUIController implements Initializable {
     @FXML
     private AnchorPane order_form;
     @FXML
+    private AnchorPane confirmAccountForm;
+    @FXML
     private Button orderBtn;
 
     @FXML
@@ -91,6 +92,27 @@ public class CustomerUIController implements Initializable {
     private Label customerNameLabel;
     @FXML
     private TextField searchProductFLd;
+    @FXML
+    private PasswordField newpasswordFld;
+    @FXML
+    private PasswordField retypenewpasswordFld;
+    @FXML
+    private TextField addressFld;
+
+    @FXML
+    private TextField birthFld;
+
+    @FXML
+    private TextField emailFld;
+
+    @FXML
+    private TextField genderFld;
+
+    @FXML
+    private TextField nameFld;
+
+    @FXML
+    private TextField phoneFld;
 
     @FXML
     private ScrollPane scrollPane;
@@ -109,11 +131,115 @@ public class CustomerUIController implements Initializable {
 
     Customer customerlogin;
 
+    public void displayError(String message) throws IOException {
+        URL url = new File("src/main/java/Views/Extra/Error.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(url);
+        loader.load();
 
+        ErrorController errorController = loader.getController();
+        errorController.setLabel(message);
+
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(new Scene(parent));
+        stage.show();
+    }
+
+    public void displaySuccessful(String message) throws IOException {
+        URL url = new File("src/main/java/Views/Extra/Successful.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(url);
+        loader.load();
+
+        SuccessfulController successfulController = loader.getController();
+        successfulController.setLabel(message);
+
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(new Scene(parent));
+        stage.show();
+    }
+
+    public void cancel(){
+        confirmAccountForm.setVisible(false);
+    }
 
     public void setCustomerNameLabel(String name){
         String[] words = name.split(" ");
         customerNameLabel.setText(words[words.length - 1]);
+    }
+
+    public void setTextField(){
+        nameFld.setText(customerlogin.getName());
+        genderFld.setText(customerlogin.getGender());
+        birthFld.setText(customerlogin.getBirth().toString());
+        phoneFld.setText(customerlogin.getPhone());
+        addressFld.setText(customerlogin.getAddress());
+        emailFld.setText(customerlogin.getEmail());
+    }
+
+    public void editCustomer() throws IOException {
+        connection = JDBCConnection.getJDBCConnection();
+        String name = nameFld.getText();
+        String gender = genderFld.getText();
+        String birth = birthFld.getText();
+        String address = addressFld.getText();
+        String phone = phoneFld.getText();
+        String email = emailFld.getText();
+
+        if (name.isEmpty() || birth.isEmpty() || address.isEmpty() || email.isEmpty() ||
+                phone.isEmpty()|| gender.isEmpty() ) {
+
+            displayError("Please Fill All Data (May be not need New Password)");
+        } else if (!isNumber(phone)) {
+            displayError("Phone Number only number");
+
+        }else  if(phone.length() >11 ) {
+            displayError("Phone Number cannot be more than 11 characters");
+
+        }else if ((!newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())
+                    && !newpasswordFld.getText().equals(retypenewpasswordFld.getText())){
+            displayError("The passwords do not match");
+
+        }else if ((!newpasswordFld.getText().isEmpty() && retypenewpasswordFld.getText().isEmpty())
+                    || (newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())) {
+            displayError("Please Fill New Password/Re-type new password");
+
+        }else
+            confirmAccountForm.setVisible(true);
+    }
+
+    public void saveInformationCustomer() throws SQLException, IOException {
+        query = "UPDATE `customer` SET "
+                + "`CUSTOMER_NAME`=?,"
+                + "`CUSTOMER_BIRTH`=?,"
+                + "`CUSTOMER_GENDER`= ?,"
+                + "`CUSTOMER_ADDRESS`= ?,"
+                + "`CUSTOMER_PHONE`= ?,"
+                + "`CUSTOMER_EMAIL`= ? WHERE CUSTOMER_ID = '"+customerlogin.getUsername()+"'";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,nameFld.getText());
+        preparedStatement.setString(2, birthFld.getText());
+        preparedStatement.setString(3,genderFld.getText().toUpperCase());
+        preparedStatement.setString(4,addressFld.getText());
+        preparedStatement.setString(5,phoneFld.getText());
+        preparedStatement.setString(6, emailFld.getText());
+        preparedStatement.execute();
+
+        if (newpasswordFld.getText()!= null && retypenewpasswordFld.getText()!= null){
+            query = "UPDATE `acc` SET `ACC_PASSWORD` = ? WHERE ACC_USERNAME = '"+customerlogin.getUsername()+"'";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,newpasswordFld.getText());
+            preparedStatement.execute();
+        }
+        displaySuccessful("Your account information has been successfully changed !");
+        newpasswordFld.setText(null);
+        retypenewpasswordFld.setText(null);
+        confirmAccountForm.setVisible(false);
     }
 
     @FXML
@@ -415,6 +541,7 @@ public class CustomerUIController implements Initializable {
         account_form.setVisible(false);
         order_form.setVisible(false);
         contact_form.setVisible(false);
+        confirmAccountForm.setVisible(false);
 
         homeBtn.setStyle("-fx-background-color: #BAD1C2");
         scBtn.setStyle("-fx-background-color:transparent");
@@ -453,6 +580,15 @@ public class CustomerUIController implements Initializable {
         stage.show();
     }
 
+    public boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerlogin = getData.customer;
@@ -469,6 +605,8 @@ public class CustomerUIController implements Initializable {
         }
 
         startForm();
+        setTextField();
+
         tshirtBtn.setStyle("-fx-background-color: transparent");
         jeansBtn.setStyle("-fx-background-color: transparent");
         jacketBtn.setStyle("-fx-background-color: transparent");
