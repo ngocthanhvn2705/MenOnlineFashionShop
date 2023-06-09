@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="616.0" styleClass="edit-form" stylesheets="@../mainDesign.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Extra.ViewOrdersCustomer">
+   <children>
+      <ImageView fitHeight="37.0" fitWidth="36.0" layoutX="584.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/MacOS%20Close.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="584.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="36.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+      <ImageView fitHeight="35.0" fitWidth="272.0" layoutX="193.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Order’s%20Customer.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="58.0" fitWidth="136.0" layoutX="29.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Customer%20Name.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="ordersTable" layoutX="70.0" layoutY="171.0" prefHeight="262.0" prefWidth="489.0">
+        <columns>
+          <TableColumn fx:id="orderIDCol" prefWidth="109.0" text="ORDER_ID" />
+            <TableColumn fx:id="statusCol" prefWidth="99.0" text="STATUS" />
+            <TableColumn fx:id="voucherIDCol" prefWidth="122.0" text="VOUCHER_ID" />
+            <TableColumn fx:id="dateCol" prefWidth="82.0" text="DATE" />
+            <TableColumn fx:id="priceCol" prefWidth="75.0" text="PRICE" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="27.0" fitWidth="114.0" layoutX="29.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Customer%20ID.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="customerIDLable" layoutX="200.0" layoutY="64.0" prefHeight="34.0" prefWidth="258.0" styleClass="label-ordersid" stylesheets="@../mainDesign.css" text="C00" />
+      <Label fx:id="customerNameLabel" layoutX="200.0" layoutY="103.0" prefHeight="34.0" prefWidth="258.0" styleClass="label-ordersid" stylesheets="@../mainDesign.css" text="Nguyen Van A" />
+   </children>
+</AnchorPane>

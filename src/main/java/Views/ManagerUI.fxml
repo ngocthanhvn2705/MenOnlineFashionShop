@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="right-form" stylesheets="@mainDesign.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ManagerUIController">
+   <children>
+      <AnchorPane layoutX="215.0" layoutY="1.0" prefHeight="25.0" prefWidth="988.0" styleClass="right-form" stylesheets="@mainDesign.css">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="32.0" layoutX="952.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/MacOS%20Close.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="44.0" layoutX="928.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Horizontal%20Line.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="952.0" layoutY="7.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="32.0" styleClass="logBtn" stylesheets="@mainDesign.css" text="Button" />
+            <Button layoutX="920.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="26.0" prefWidth="32.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+         </children>
+      </AnchorPane>
+      <VBox prefHeight="700.0" prefWidth="215.0" styleClass="left-form" stylesheets="@mainDesign.css">
+         <children>
+            <AnchorPane prefHeight="222.0" prefWidth="215.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Img/Slaves%20of%20Deadlines.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="77.0" fitWidth="80.0" layoutX="77.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Img/zyro-image%201.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="managerNameLabel" layoutY="172.0" prefHeight="32.0" prefWidth="215.0" styleClass="employee_name" stylesheets="@mainDesign.css" text="Manager Name" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="dashboardBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="215.0" styleClass="left-button-label" stylesheets="@mainDesign.css" text="Dashboard" />
+            <Button fx:id="manageEmployeeBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Employee" />
+            <Button fx:id="manageCustomerbtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Customer" />
+            <Button fx:id="manageOrderBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Order" />
+            <Button fx:id="manageProductBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Product" />
+            <Button fx:id="manageVoucherBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Voucher" />
+            <Button fx:id="reportBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Report" />
+            <AnchorPane prefHeight="124.0" prefWidth="215.0">
+               <children>
+                  <Button fx:id="logOutBtn" layoutX="22.0" layoutY="67.0" mnemonicParsing="false" onAction="#logOut" styleClass="sign-out" stylesheets="@mainDesign.css">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="2em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <AnchorPane id="scroll" layoutX="215.0" layoutY="24.0" prefHeight="675.0" prefWidth="988.0" styleClass="right-form" stylesheets="@mainDesign.css" visible="false">
+         <children>
+            <TextField layoutX="182.0" layoutY="26.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="181.0" prefHeight="446.0" prefWidth="972.0" styleClass="abc" stylesheets="@mainDesign.css">
+               <content>
+                  <AnchorPane prefHeight="439.0" prefWidth="955.0" styleClass="abc" stylesheets="@mainDesign.css">
+                     <children>
+                        <GridPane fx:id="productGrid" layoutY="-1.0" prefWidth="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="manageEmployee" fx:id="manageEmployee_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+         <children>
+            <TextField fx:id="searchEmployeeFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="58.0" fitWidth="110.0" layoutX="84.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Insert.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="281.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Delete.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="494.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Update.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="87.0" layoutY="74.0" mnemonicParsing="false" onAction="#insertEmployee" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="285.0" layoutY="74.0" mnemonicParsing="false" onAction="#deleteEmployeeBtn" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="497.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#updateEmployee" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <TableView fx:id="employeeTable" layoutY="145.0" onMouseClicked="#viewEmployee" prefHeight="520.0" prefWidth="988.0">
+              <columns>
+                <TableColumn fx:id="employeeIDCol" prefWidth="60.79997253417969" text="ID" />
+                <TableColumn fx:id="employeeUsernameCol" prefWidth="141.60003662109375" text="Username" />
+                  <TableColumn fx:id="employeeNameCol" prefWidth="140.79998779296875" text="NAME" />
+                  <TableColumn fx:id="employeeBirthCol" prefWidth="118.4000244140625" text="BIRTH" />
+                  <TableColumn fx:id="employeeGenderCol" prefWidth="87.2000732421875" text="GENDER" />
+                  <TableColumn fx:id="employeeAddressCol" prefWidth="180.7999267578125" text="ADDRESS" />
+                  <TableColumn fx:id="employeePhoneCol" prefWidth="94.39996337890625" text="PHONE" />
+                  <TableColumn fx:id="employeeEmailCol" prefWidth="167.2000732421875" text="EMAIL" />
+              </columns>
+            </TableView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="682.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="685.0" layoutY="74.0" mnemonicParsing="false" onAction="#refreshEmployee" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="manageCustomer" fx:id="manageCustomer_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
+         <children>
+            <TextField fx:id="searchCustomerFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="389.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="389.0" layoutY="73.0" mnemonicParsing="false" onAction="#refreshCustomer" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <TableView fx:id="customerTable" layoutY="145.0" onMouseClicked="#viewOrderCustomer" prefHeight="520.0" prefWidth="988.0">
+               <columns>
+                  <TableColumn fx:id="customerIDCol" prefWidth="60.79997253417969" text="ID" />
+                  <TableColumn fx:id="customerUsernameCol" prefWidth="141.60003662109375" text="USERNAME" />
+                  <TableColumn fx:id="customerNameCol" prefWidth="140.79998779296875" text="NAME" />
+                  <TableColumn fx:id="customerBirthCol" prefWidth="118.4000244140625" text="BIRTH" />
+                  <TableColumn fx:id="customerGenderCol" prefWidth="87.2000732421875" text="GENDER" />
+                  <TableColumn fx:id="customerAddressCol" prefWidth="180.7999267578125" text="ADDRESS" />
+                  <TableColumn fx:id="customerPhoneCol" prefWidth="94.39996337890625" text="PHONE" />
+                  <TableColumn fx:id="customerEmailCol" prefWidth="167.2000732421875" text="EMAIL" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="manageOrder" fx:id="manageOrder_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+         <children>
+            <TextField fx:id="searchOrderFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="472.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Cancel.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="220.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Update.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="476.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelOrderBtn" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="223.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#updateOrder" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="711.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="711.0" layoutY="73.0" mnemonicParsing="false" onAction="#refreshOrder" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <TableView fx:id="orderTable" layoutX="143.0" layoutY="146.0" onMouseClicked="#viewOrder" prefHeight="520.0" prefWidth="739.0">
+               <columns>
+                  <TableColumn fx:id="orderIDCol" prefWidth="60.79997253417969" text="ID" />
+                  <TableColumn fx:id="orderCustomerIDCol" prefWidth="141.60003662109375" text="CUSTOMER_ID" />
+                  <TableColumn fx:id="orderStatusCol" prefWidth="146.4000244140625" text="STATUS" />
+                  <TableColumn fx:id="orderVoucherIDCol" prefWidth="124.79998779296875" text="VOUCHER_ID" />
+                  <TableColumn fx:id="orderDateCol" prefWidth="124.7999267578125" text="DATE" />
+                  <TableColumn fx:id="orderPriceCol" prefWidth="138.4000122070313" text="PRICE" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="manageProduct" fx:id="manageProduct_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+         <children>
+            <TextField fx:id="searchProductFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="58.0" fitWidth="110.0" layoutX="149.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Insert.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="377.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Update.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="153.0" layoutY="75.0" mnemonicParsing="false" onAction="#insertProduct" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="380.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#updateProduct" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="627.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="627.0" layoutY="73.0" mnemonicParsing="false" onAction="#refreshProduct" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <TableView fx:id="productTable" layoutY="145.0" onMouseClicked="#viewProduct" prefHeight="520.0" prefWidth="988.0">
+               <columns>
+                  <TableColumn fx:id="productIDCol" prefWidth="60.79997253417969" text="ID" />
+                  <TableColumn fx:id="productNameCol" prefWidth="173.0" text="NAME" />
+                  <TableColumn fx:id="productDescriptionCol" prefWidth="315.0" text="DESCRIPTION" />
+                  <TableColumn fx:id="productPriceCol" prefWidth="99.0" text="PRICE" />
+                  <TableColumn fx:id="productQuantityCol" prefWidth="88.0" text="QUANTITY" />
+                  <TableColumn fx:id="productSoldCol" prefWidth="54.0" text="SOLD" />
+                  <TableColumn fx:id="productStatusCol" prefWidth="101.0" text="STATUS" />
+                  <TableColumn fx:id="productOrginCol" prefWidth="96.0" text="ORGIN" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="manageVoucher" fx:id="manageVoucher_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+         <children>
+            <TextField fx:id="searchVoucherFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="58.0" fitWidth="110.0" layoutX="227.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Insert.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="439.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Update.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="227.0" layoutY="74.0" mnemonicParsing="false" onAction="#insertVoucher" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="443.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#updateVoucher" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="627.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="626.0" layoutY="74.0" mnemonicParsing="false" onAction="#refreshVoucher" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <TableView fx:id="voucherTable" layoutX="133.0" layoutY="146.0" onMouseClicked="#viewVoucher" prefHeight="520.0" prefWidth="650.0">
+               <columns>
+                  <TableColumn fx:id="voucherIDCol" prefWidth="60.79997253417969" text="ID" />
+                  <TableColumn fx:id="voucherTypeCol" prefWidth="141.60003662109375" text="TYPE" />
+                  <TableColumn fx:id="voucherValueCol" prefWidth="140.79998779296875" text="VALUE" />
+                  <TableColumn fx:id="voucherAmountCol" prefWidth="118.4000244140625" text="AMOUNT" />
+                  <TableColumn fx:id="voucherUsedCol" prefWidth="103.19989013671875" text="USED" />
+                  <TableColumn fx:id="voucherStatusCol" prefWidth="83.20004882812498" text="STATUS" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="Report" fx:id="report_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false" />
+      <AnchorPane id="dashboard" fx:id="dashBoard_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false" />
+      <AnchorPane id="confirmForm" fx:id="confirmForm" layoutX="356.0" layoutY="223.0" prefHeight="266.0" prefWidth="614.0" visible="false">
+         <children>
+            <ImageView fitHeight="175.0" fitWidth="412.0" layoutX="82.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Untitled2.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="249.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancel" prefHeight="34.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="360.0" layoutY="144.0" mnemonicParsing="false" onAction="#confirm" prefHeight="34.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="508.0" layoutY="82.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="28.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

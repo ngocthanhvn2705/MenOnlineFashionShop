@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="279.0" stylesheets="@mainDesign.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ThumbController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <ImageView fx:id="imageView" fitHeight="209.0" fitWidth="250.0" onMouseClicked="#showinformationProduct" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <AnchorPane prefHeight="68.0" prefWidth="98.0" />
+            <VBox prefHeight="68.0" prefWidth="342.0">
+               <children>
+                  <Label fx:id="nameLabel" onMouseClicked="#showinformationProduct" prefHeight="34.0" prefWidth="247.0" styleClass="product-thumb" stylesheets="@mainDesign.css" text="Name Label" />
+                  <Label fx:id="priceLabel" prefHeight="34.0" prefWidth="229.0" styleClass="productprice-thumb" stylesheets="@mainDesign.css" text="Price Label" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+   <styleClass>
+      <String fx:value="product-items" />
+      <String fx:value="shadow" />
+   </styleClass>
+</VBox>

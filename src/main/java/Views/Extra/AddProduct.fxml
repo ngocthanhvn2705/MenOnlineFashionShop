@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="816.0" styleClass="edit-form" stylesheets="@../mainDesign.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Extra.AddProductController">
+   <children>
+      <ImageView fitHeight="19.0" fitWidth="92.0" layoutX="372.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/ID.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="19.0" fitWidth="59.0" layoutX="355.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Name.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="16.0" fitWidth="82.0" layoutX="353.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Status.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="19.0" fitWidth="82.0" layoutX="351.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Price.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="23.0" fitWidth="90.0" layoutX="340.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Quantity.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="65.0" layoutX="353.0" layoutY="408.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Origin.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="idFld" layoutX="467.0" layoutY="48.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
+      <TextField fx:id="nameFld" layoutX="467.0" layoutY="97.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
+      <TextField fx:id="descriptionFld" layoutX="467.0" layoutY="143.0" prefHeight="81.0" prefWidth="313.0" styleClass="description-texfield" stylesheets="@../mainDesign.css" />
+      <TextField fx:id="priceFld" layoutX="467.0" layoutY="246.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
+      <TextField fx:id="quantityFld" layoutX="467.0" layoutY="298.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
+      <RadioButton fx:id="statusAvailable" layoutX="457.0" layoutY="353.0" mnemonicParsing="false" onAction="#getStatus" styleClass="radioButton" stylesheets="@../mainDesign.css" text="AVAILABLE" textFill="#7b0505">
+         <toggleGroup>
+            <ToggleGroup fx:id="status" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="statusOutofstock" layoutX="624.0" layoutY="353.0" mnemonicParsing="false" onAction="#getStatus" styleClass="radioButton" stylesheets="@../mainDesign.css" text="OUT OF STOCK" toggleGroup="$status" />
+      <TextField fx:id="originFld" layoutX="467.0" layoutY="403.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
+      <ImageView fitHeight="37.0" fitWidth="36.0" layoutX="784.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/MacOS%20Close.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="19.0" fitWidth="107.0" layoutX="498.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Available.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="139.0" layoutX="663.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Out%20of%20Stock.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="114.0" layoutX="298.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/SAVE.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="114.0" layoutX="457.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/CLEAR.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="300.0" layoutY="461.0" mnemonicParsing="false" onAction="#save" prefHeight="41.0" prefWidth="114.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+      <Button layoutX="462.0" layoutY="460.0" mnemonicParsing="false" onAction="#clear" prefHeight="42.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+      <Button layoutX="784.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="36.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+      <ImageView fitHeight="35.0" fitWidth="272.0" layoutX="271.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Product%20Details.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="114.0" layoutX="328.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Img/Description.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="28.0" layoutY="353.0" mnemonicParsing="false" onAction="#productInsertImage" prefHeight="31.0" prefWidth="291.0" styleClass="addimage-btn" stylesheets="@../mainDesign.css" text="Import" />
+      <AnchorPane fx:id="confirmForm" layoutX="203.0" layoutY="133.0" prefHeight="219.0" prefWidth="410.0" visible="false">
+         <children>
+            <ImageView fitHeight="176.0" fitWidth="410.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Img/Untitled.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="166.0" layoutY="145.0" mnemonicParsing="false" onAction="#cancel" prefHeight="34.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+            <Button layoutX="278.0" layoutY="145.0" mnemonicParsing="false" onAction="#confirm" prefHeight="34.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+            <Button layoutX="378.0" layoutY="21.0" mnemonicParsing="false" onAction="#cancel" prefHeight="31.0" prefWidth="30.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+         </children>
+      </AnchorPane>
+      <BorderPane layoutX="28.0" layoutY="115.0" prefHeight="230.0" prefWidth="291.0">
+         <center>
+            <ImageView fx:id="product_imageView" fitHeight="231.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8,0,0,0);" styleClass="shadow" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
