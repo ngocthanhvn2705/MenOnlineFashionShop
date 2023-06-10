@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class getData {
     public static String username;
@@ -14,6 +15,10 @@ public class getData {
     public static Manager manager;
     public static Employee employee;
     public static Customer customer;
+
+    public static ArrayList<String> ProductChosenList = new ArrayList<>();
+    public static ArrayList<String> SizeProductChosenList = new ArrayList<>();
+
     public static String messageReturn;
     public static void setManager(){
         Connection connection;

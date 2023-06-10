@@ -6,6 +6,7 @@ import Controller.Extra.SuccessfulController;
 import Database.JDBCConnection;
 import Models.Customer;
 import Models.Product;
+import Models.Shopping_Cart;
 import Models.getData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -130,6 +131,8 @@ public class CustomerUIController implements Initializable {
     ObservableList<Product> ProductList = FXCollections.observableArrayList();
     ObservableList<Product> ProductListSearch = FXCollections.observableArrayList();
     ObservableList<Product> ProductListSC = FXCollections.observableArrayList();
+
+    ObservableList<Shopping_Cart> SCList = FXCollections.observableArrayList();
     private double x = 0;
     private double y = 0;
 
@@ -179,6 +182,8 @@ public class CustomerUIController implements Initializable {
 
     public void setItemsSC() throws SQLException {
         ProductListSC.clear();
+        SCList.clear();
+        scItems.getChildren().clear();
         connection = JDBCConnection.getJDBCConnection();
         query = "SELECT * FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ?";
 
@@ -189,6 +194,12 @@ public class CustomerUIController implements Initializable {
 
         while (resultSet.next()) {
             String productid = resultSet.getString("SC_PRODUCT_ID");
+
+            SCList.add(new Shopping_Cart(
+                    productid,
+                    resultSet.getInt("SC_AMOUNT"),
+                    resultSet.getInt("SC_PRICE"),
+                    resultSet.getString("SC_SIZE_PRODUCT")));
 
             Connection con = JDBCConnection.getJDBCConnection();
 
@@ -234,8 +245,8 @@ public class CustomerUIController implements Initializable {
                 }
 
                 ProductSCController productSCController = loader.getController();
-                productSCController.setProductSC(ProductListSC.get(i));
-                productSCController.setQuantitySpinner(ProductListSC.get(i).getQuantity());
+                productSCController.setProductSC(ProductListSC.get(i), SCList.get(i));
+
 
                 nodes[i] = loader.getRoot();
 
@@ -244,6 +255,24 @@ public class CustomerUIController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void deleteProductSC() throws SQLException {
+
+        for (int i=0; i<getData.ProductChosenList.size(); i++){
+            connection = JDBCConnection.getJDBCConnection();
+            query = "DELETE FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, customerlogin.getId());
+            preparedStatement.setString(2, getData.ProductChosenList.get(i));
+            preparedStatement.setString(3, getData.SizeProductChosenList.get(i));
+            preparedStatement.execute();
+
+        }
+        getData.SizeProductChosenList.clear();
+        getData.ProductChosenList.clear();
+        setItemsSC();
     }
 
     public void setTextField(){

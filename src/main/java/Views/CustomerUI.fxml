@@ -33,7 +33,7 @@
                <graphic>
                   <FontAwesomeIcon glyphName="HOME" />
                </graphic></Button>
-            <Button fx:id="scBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="65.0" prefWidth="220.0" styleClass="left-button-label" stylesheets="@mainDesign.css" text="Shopping Cart">
+            <Button fx:id="scBtn" mnemonicParsing="false" onAction="#switchForm" onMouseClicked="#setItemsSC" prefHeight="65.0" prefWidth="220.0" styleClass="left-button-label" stylesheets="@mainDesign.css" text="Shopping Cart">
                <graphic>
                   <FontAwesomeIcon glyphName="CART_PLUS" text="" />
                </graphic></Button>
@@ -126,6 +126,17 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <ImageView fitHeight="106.0" fitWidth="136.0" layoutX="28.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/delete%20sc.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="55.0" fitWidth="156.0" layoutX="772.0" layoutY="494.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/order%20sc.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="28.0" layoutY="496.0" mnemonicParsing="false" onAction="#deleteProductSC" prefHeight="51.0" prefWidth="136.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children></AnchorPane>
       <AnchorPane id="account" fx:id="account_form" layoutX="215.0" layoutY="114.0" prefHeight="592.0" prefWidth="988.0" styleClass="right-form-white" stylesheets="@mainDesign.css" visible="false">
          <children>
