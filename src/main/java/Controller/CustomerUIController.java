@@ -1,6 +1,7 @@
 package Controller;
 
 import Controller.Extra.ErrorController;
+import Controller.Extra.ProductSCController;
 import Controller.Extra.SuccessfulController;
 import Database.JDBCConnection;
 import Models.Customer;
@@ -13,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -113,6 +115,8 @@ public class CustomerUIController implements Initializable {
 
     @FXML
     private TextField phoneFld;
+    @FXML
+    private VBox scItems;
 
     @FXML
     private ScrollPane scrollPane;
@@ -125,6 +129,7 @@ public class CustomerUIController implements Initializable {
     Product product = null;
     ObservableList<Product> ProductList = FXCollections.observableArrayList();
     ObservableList<Product> ProductListSearch = FXCollections.observableArrayList();
+    ObservableList<Product> ProductListSC = FXCollections.observableArrayList();
     private double x = 0;
     private double y = 0;
 
@@ -170,6 +175,75 @@ public class CustomerUIController implements Initializable {
     public void setCustomerNameLabel(String name){
         String[] words = name.split(" ");
         customerNameLabel.setText(words[words.length - 1]);
+    }
+
+    public void setItemsSC() throws SQLException {
+        ProductListSC.clear();
+        connection = JDBCConnection.getJDBCConnection();
+        query = "SELECT * FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, customerlogin.getId());
+
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            String productid = resultSet.getString("SC_PRODUCT_ID");
+
+            Connection con = JDBCConnection.getJDBCConnection();
+
+            String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = ?";
+            PreparedStatement prepared = con.prepareStatement(sql);
+            prepared.setString(1, productid);
+
+            ResultSet rs = prepared.executeQuery();
+
+            while (rs.next()) {
+                Image image = null;
+                Blob file = rs.getBlob("PRODUCT_IMAGE");
+                if(file != null) {
+                    byte[] b = file.getBytes(1, (int) file.length());
+                    ByteArrayInputStream inputStream = new ByteArrayInputStream(b);
+                    image = new Image(inputStream, 170,170, false,true);
+                }
+
+                ProductListSC.add(new Product(
+                        rs.getString("PRODUCT_ID"),
+                        rs.getString("PRODUCT_NAME"),
+                        rs.getString("PRODUCT_DESCRIPTION"),
+                        image,
+                        rs.getInt("PRODUCT_PRICE"),
+                        rs.getInt("PRODUCT_QUANTITY"),
+                        rs.getInt("PRODUCT_SOLD"),
+                        rs.getString("PRODUCT_STATUS"),
+                        rs.getString("PRODUCT_ORIGIN")));
+            }
+
+        }
+
+        Node[] nodes = new Node[ProductListSC.size()];
+        for (int i = 0; i < nodes.length; i++) {
+            try {
+                URL url = new File("src/main/java/Views/Extra/ProductSC.fxml").toURI().toURL();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(url);
+                try {
+                    loader.load();
+                } catch (IOException ex) {
+                    Logger.getLogger(CustomerUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                ProductSCController productSCController = loader.getController();
+                productSCController.setProductSC(ProductListSC.get(i));
+                productSCController.setQuantitySpinner(ProductListSC.get(i).getQuantity());
+
+                nodes[i] = loader.getRoot();
+
+                scItems.getChildren().add(nodes[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setTextField(){
@@ -606,6 +680,12 @@ public class CustomerUIController implements Initializable {
 
         startForm();
         setTextField();
+
+        try {
+            setItemsSC();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         tshirtBtn.setStyle("-fx-background-color: transparent");
         jeansBtn.setStyle("-fx-background-color: transparent");

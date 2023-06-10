@@ -252,5 +252,39 @@
     -fx-border-width: 1.5px;
     -fx-font-family: Tahoma;
 }
+.scroll-pane-sc {
+    -fx-background-color: #FFFAF4;
+}
+.scroll-pane-sc .scroll-pane > .viewport {
+    -fx-hbar-policy: NEVER;
+}
+.scroll-pane-sc .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+.sc-form{
+    -fx-background-color: #BCEAD5;
+}
+
+.checkbox-sc {
+    -fx-padding: 5px;
+    -fx-background-color: transparent;
+    -fx-font-size: 22px;
+}
+
+.checkbox-sc .check-box .box {
+    -fx-padding: 10px;
+    -fx-background-color: #FFFAF4;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+.checkbox-sc .check-box .box .mark {
+    -fx-background-color: #FFFAF4;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 
