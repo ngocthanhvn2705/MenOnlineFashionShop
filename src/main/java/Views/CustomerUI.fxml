@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -115,7 +117,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css">
+      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css" visible="false">
          <children>
             <ScrollPane prefHeight="450.0" prefWidth="988.0" styleClass="scroll-pane-sc" stylesheets="@mainDesign.css">
                <content>
@@ -210,7 +212,28 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane id="order" fx:id="order_form" layoutX="215.0" layoutY="37.0" prefHeight="668.0" prefWidth="988.0" visible="false" />
+      <AnchorPane id="order" fx:id="order_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css">
+         <children>
+            <TableView fx:id="orderTable" layoutX="187.0" layoutY="36.0" onMouseClicked="#viewOrder" prefHeight="416.0" prefWidth="593.0">
+               <columns>
+                  <TableColumn fx:id="orderIDCol" prefWidth="60.79997253417969" text="ID" />
+                  <TableColumn fx:id="orderDateCol" prefWidth="124.7999267578125" text="DATE" />
+                  <TableColumn fx:id="orderPriceCol" prefWidth="138.4000122070313" text="PRICE" />
+                  <TableColumn fx:id="orderVoucherIDCol" prefWidth="124.79998779296875" text="VOUCHER_ID" />
+                  <TableColumn fx:id="orderStatusCol" prefWidth="146.4000244140625" text="STATUS" />
+               </columns>
+            </TableView>
+            <ImageView fitHeight="51.0" fitWidth="159.0" layoutX="263.0" layoutY="520.0" onMouseClicked="#cancelOrder" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../Img/orderCancel.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="51.0" fitWidth="162.0" layoutX="570.0" layoutY="520.0" onMouseClicked="#viewOrder" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../Img/order%20view.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
       <AnchorPane id="contact" fx:id="contact_form" layoutX="215.0" layoutY="37.0" prefHeight="668.0" prefWidth="988.0" visible="false" />
       <Label fx:id="customerNameLabel" layoutX="1025.0" layoutY="48.0" prefHeight="38.0" prefWidth="84.0" styleClass="name-customer" stylesheets="@mainDesign.css" text="Sana" />
       <ImageView fitHeight="38.0" fitWidth="32.0" layoutX="1129.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">

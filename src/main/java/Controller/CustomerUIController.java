@@ -3,11 +3,9 @@ package Controller;
 import Controller.Extra.ErrorController;
 import Controller.Extra.ProductSCController;
 import Controller.Extra.SuccessfulController;
+import Controller.Extra.UpdateOrdersController;
 import Database.JDBCConnection;
-import Models.Customer;
-import Models.Product;
-import Models.Shopping_Cart;
-import Models.getData;
+import Models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -33,6 +32,7 @@ import javafx.stage.StageStyle;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PipedReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
@@ -118,6 +118,25 @@ public class CustomerUIController implements Initializable {
     private TextField phoneFld;
     @FXML
     private VBox scItems;
+    @FXML
+    private TableView<Orders> orderTable;
+    @FXML
+    private TextField searchOrderFld;
+
+    @FXML
+    private TableColumn<Orders, String> orderDateCol;
+
+    @FXML
+    private TableColumn<Orders, String> orderIDCol;
+
+    @FXML
+    private TableColumn<Orders, Integer> orderPriceCol;
+
+    @FXML
+    private TableColumn<Orders, String> orderStatusCol;
+
+    @FXML
+    private TableColumn<Orders, String> orderVoucherIDCol;
 
     @FXML
     private ScrollPane scrollPane;
@@ -128,9 +147,11 @@ public class CustomerUIController implements Initializable {
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
     Product product = null;
+    Orders orders  =null;
     ObservableList<Product> ProductList = FXCollections.observableArrayList();
     ObservableList<Product> ProductListSearch = FXCollections.observableArrayList();
     ObservableList<Product> ProductListSC = FXCollections.observableArrayList();
+    ObservableList<Orders> OrdersList = FXCollections.observableArrayList();
 
     ObservableList<Shopping_Cart> SCList = FXCollections.observableArrayList();
     private double x = 0;
@@ -512,6 +533,96 @@ public class CustomerUIController implements Initializable {
 
     }
 
+    private void loadDateOrders() {
+
+        connection = JDBCConnection.getJDBCConnection();
+        refreshOrder();
+
+        orderIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        orderStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        orderVoucherIDCol.setCellValueFactory(new PropertyValueFactory<>("voucher_id"));
+        orderDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        orderPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+    }
+    public void refreshOrder() {
+        try {
+            OrdersList.clear();
+
+            query = "SELECT * FROM `orders` WHERE  ORDERS_CUSTOMER_ID = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,customerlogin.getId());
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                OrdersList.add(new Orders(
+                        resultSet.getString("ORDERS_ID"),
+                        resultSet.getString("ORDERS_CUSTOMER_ID"),
+                        resultSet.getString("ORDERS_STATUS"),
+                        resultSet.getString("ORDERS_VOUCHER_ID"),
+                        resultSet.getDate("ORDERS_DATE"),
+                        resultSet.getInt("ORDERS_PRICE")));
+                orderTable.setItems(OrdersList);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void viewOrder(MouseEvent event) throws IOException {
+        if (event.getClickCount() == 2){
+            orders = orderTable.getSelectionModel().getSelectedItem();
+
+            URL url = new File("src/main/java/Views/Extra/UpdateOrders.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(url);
+
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            UpdateOrdersController updateOrdersController = loader.getController();
+            updateOrdersController.setOrderID(orders.getId());
+            updateOrdersController.setStatusLabel(orders.getStatus());
+
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(new Scene(parent));
+            stage.show();
+        }
+    }
+
+    public void cancelOrder() throws IOException {
+        orders = orderTable.getSelectionModel().getSelectedItem();
+        if (orders.getStatus() == "CANCELED") {
+            try {
+
+                query = "UPDATE `orders` SET ORDERS_STATUS = 'CANCELED' WHERE ORDERS_ID  = ? and ORDERS_CUSTOMER_ID= ?";
+
+                connection = JDBCConnection.getJDBCConnection();
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, orders.getId());
+                preparedStatement.setString(2, customerlogin.getId());
+                preparedStatement.execute();
+                displaySuccessful("The order was successfully canceled!");
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(CustomerUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            loadDateOrders();
+        }else if(orders.getStatus() == "DELIVERING"){
+            displayError("The order was Delivering. Can't cancel;");
+        }else
+            displayError("The order was done. Can't Cancel");
+    }
+
+
+
+
     @FXML
     public void switchCategory(ActionEvent event) throws MalformedURLException {
         if (event.getSource() == tshirtBtn) {
@@ -707,6 +818,7 @@ public class CustomerUIController implements Initializable {
             throw new RuntimeException(e);
         }
 
+        loadDateOrders();
         startForm();
         setTextField();
 

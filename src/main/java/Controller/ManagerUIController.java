@@ -435,9 +435,6 @@ public class ManagerUIController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(new Scene(parent));
         stage.show();
-
-
-
     }
     public void cancelOrderBtn(){
         confirmForm.setVisible(true);

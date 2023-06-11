@@ -15,10 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -42,6 +39,8 @@ public class UpdateOrdersController implements Initializable {
 
     @FXML
     private Label orderIDLabel;
+    @FXML
+    private Label statusLabel;
 
     @FXML
     private TableView<Order_Items> orderItemsTable;
@@ -61,11 +60,14 @@ public class UpdateOrdersController implements Initializable {
     @FXML
     private ComboBox<String> statusCombobox;
 
+    @FXML
+    private Button saveBtn;
+
 
     Order_Items order_items = null;
     ObservableList<Order_Items> Order_ItemsList = FXCollections.observableArrayList();
     String query = null;
-      String orderid;
+    String orderid;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
@@ -77,6 +79,14 @@ public class UpdateOrdersController implements Initializable {
     }
     public void setStatus(String status){
         statusCombobox.setValue(status);
+
+    }
+
+    public void setStatusLabel(String status){
+        statusCombobox.setVisible(false);
+        statusLabel.setText(status);
+        statusLabel.setVisible(true);
+        saveBtn.setVisible(false);
     }
     public void cancel() {
         confirmForm.setVisible(false);

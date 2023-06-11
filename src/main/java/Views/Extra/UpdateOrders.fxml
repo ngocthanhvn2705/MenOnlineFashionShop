@@ -16,12 +16,14 @@
             <Image url="@../../Img/MacOS%20Close.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="44.0" fitWidth="114.0" layoutX="175.0" layoutY="459.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Img/SAVE.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="175.0" layoutY="459.0" mnemonicParsing="false" onAction="#save" prefHeight="41.0" prefWidth="114.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+      <Button fx:id="saveBtn" layoutX="189.0" layoutY="451.0" mnemonicParsing="false" onAction="#save" prefHeight="0.0" prefWidth="0.0" styleClass="logBtn" stylesheets="@../mainDesign.css">
+         <graphic>
+            <ImageView fitHeight="44.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Img/SAVE.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Button layoutX="476.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="36.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
       <ImageView fitHeight="35.0" fitWidth="272.0" layoutX="139.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -60,5 +62,6 @@
             <Button layoutX="375.0" layoutY="27.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="28.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
          </children>
       </AnchorPane>
+      <Label fx:id="statusLabel" layoutX="139.0" layoutY="104.0" prefHeight="34.0" prefWidth="150.0" text="STATUS LABEL" visible="false" />
    </children>
 </AnchorPane>
