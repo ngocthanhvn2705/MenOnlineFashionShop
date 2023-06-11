@@ -47,7 +47,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="orderBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="65.0" prefWidth="220.0" styleClass="left-button-label" stylesheets="@mainDesign.css" text="Order">
+            <Button fx:id="orderBtn" mnemonicParsing="false" onAction="#switchForm" onMouseClicked="#loadDateOrders" prefHeight="65.0" prefWidth="220.0" styleClass="left-button-label" stylesheets="@mainDesign.css" text="Order">
                <graphic>
                   <ImageView fitHeight="61.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>

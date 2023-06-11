@@ -608,7 +608,7 @@ public class CustomerUIController implements Initializable {
             prepared.execute();
 
         }
-
+        displaySuccessful("Your cart has been successfully ordered. ");
         getData.ProductChosenList.clear();
         getData.ProductChosenList.clear();
 
@@ -667,7 +667,7 @@ public class CustomerUIController implements Initializable {
         saveLabel.setText(String.valueOf(save));
     }
 
-    private void loadDateOrders() {
+    public void loadDateOrders() {
 
         connection = JDBCConnection.getJDBCConnection();
         refreshOrder();
@@ -733,7 +733,7 @@ public class CustomerUIController implements Initializable {
 
     public void cancelOrder() throws IOException {
         orders = orderTable.getSelectionModel().getSelectedItem();
-        if (orders.getStatus() == "CANCELED") {
+        if (orders.getStatus().equals("CANCELED")) {
             try {
 
                 query = "UPDATE `orders` SET ORDERS_STATUS = 'CANCELED' WHERE ORDERS_ID  = ? and ORDERS_CUSTOMER_ID= ?";
@@ -748,7 +748,7 @@ public class CustomerUIController implements Initializable {
                 Logger.getLogger(CustomerUIController.class.getName()).log(Level.SEVERE, null, ex);
             }
             loadDateOrders();
-        }else if(orders.getStatus() == "DELIVERING"){
+        }else if(orders.getStatus().equals("DELIVERING")){
             displayError("The order was Delivering. Can't cancel;");
         }else
             displayError("The order was done. Can't Cancel");
