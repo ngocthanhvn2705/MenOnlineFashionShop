@@ -2,6 +2,7 @@ package Controller.Extra;
 
 import Controller.ThumbController;
 import Database.JDBCConnection;
+import Main.MyListener;
 import Models.Product;
 import Models.Shopping_Cart;
 import Models.getData;
@@ -55,13 +56,16 @@ public class ProductSCController implements Initializable {
 
     @FXML
     private Spinner<Integer> quantitySpinner;
-
+    private MyListener myListener;
     Product product;
     Shopping_Cart shoppingCart;
 
-    public void setProductSC(Product product1, Shopping_Cart sc){
+
+
+    public void setProductSC(Product product1, Shopping_Cart sc, MyListener myListener){
         this.shoppingCart = sc;
         this.product = product1;
+
 
         imageView.setImage(product1.getImage());
         imageView.setFitHeight(170);
@@ -100,6 +104,7 @@ public class ProductSCController implements Initializable {
                 }
             }
         });
+        this.myListener = myListener;
     }
     @FXML
     public void viewProductSC(MouseEvent event) throws MalformedURLException {
@@ -135,6 +140,7 @@ public class ProductSCController implements Initializable {
                 }
             }
         }
+        myListener.onClickListener();
     }
 
 

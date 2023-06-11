@@ -5,7 +5,10 @@ import Controller.Extra.ProductSCController;
 import Controller.Extra.SuccessfulController;
 import Controller.Extra.UpdateOrdersController;
 import Database.JDBCConnection;
+import Main.MyListener;
 import Models.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,6 +85,8 @@ public class CustomerUIController implements Initializable {
     @FXML
     private AnchorPane confirmAccountForm;
     @FXML
+    private AnchorPane confirmOrderForm;
+    @FXML
     private Button orderBtn;
 
     @FXML
@@ -93,6 +99,12 @@ public class CustomerUIController implements Initializable {
     private GridPane productGrid;
     @FXML
     private Label customerNameLabel;
+    @FXML
+    private Label totalLabel;
+    @FXML
+    private Label saveLabel;
+    @FXML
+    private TextField voucherFld;
     @FXML
     private TextField searchProductFLd;
     @FXML
@@ -142,6 +154,7 @@ public class CustomerUIController implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private AnchorPane main_form;
+    String voucher = null;
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -154,6 +167,7 @@ public class CustomerUIController implements Initializable {
     ObservableList<Orders> OrdersList = FXCollections.observableArrayList();
 
     ObservableList<Shopping_Cart> SCList = FXCollections.observableArrayList();
+    private MyListener myListener;
     private double x = 0;
     private double y = 0;
 
@@ -202,6 +216,13 @@ public class CustomerUIController implements Initializable {
     }
 
     public void setItemsSC() throws SQLException {
+        myListener = new MyListener() {
+            @Override
+            public void onClickListener() {
+                setTotalSaveLabel();
+            }
+        };
+
         ProductListSC.clear();
         SCList.clear();
         scItems.getChildren().clear();
@@ -266,7 +287,7 @@ public class CustomerUIController implements Initializable {
                 }
 
                 ProductSCController productSCController = loader.getController();
-                productSCController.setProductSC(ProductListSC.get(i), SCList.get(i));
+                productSCController.setProductSC(ProductListSC.get(i), SCList.get(i), myListener);
 
 
                 nodes[i] = loader.getRoot();
@@ -531,6 +552,119 @@ public class CustomerUIController implements Initializable {
             }
         }
 
+    }
+
+    @FXML
+    public void orderSC() throws SQLException, IOException {
+        connection = JDBCConnection.getJDBCConnection();
+        query = "INSERT INTO ORDERS ( ORDERS_CUSTOMER_ID, ORDERS_STATUS, ORDERS_VOUCHER_ID, ORDERS_DATE, ORDERS_PRICE) " +
+                "VALUES (?,?,?, CURDATE() , 0) ";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,customerlogin.getId());
+        preparedStatement.setString(2, "PREPARING");
+        preparedStatement.setString(3,voucher);
+        preparedStatement.execute();
+
+        getData.setOrderid();
+
+
+        connection = JDBCConnection.getJDBCConnection();
+        query = "INSERT INTO ORDER_ITEMS (OI_ORDERS_ID, OI_PRODUCT_ID, OI_QUANTITY, OI_SIZE, OI_PRICE)" +
+                "VALUES (?,?, ?, ?, 0)";
+
+
+        for (int i=0; i < getData.ProductChosenList.size(); i++){
+            Integer quantity = 0;
+            Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "SELECT * FROM SHOPPING_CART " +
+                    "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
+
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setString(1, customerlogin.getId());
+            pre.setString(2, getData.ProductChosenList.get(i));
+            pre.setString(3, getData.SizeProductChosenList.get(i));
+            resultSet = pre.executeQuery();
+
+            if (resultSet.next()){
+                quantity = resultSet.getInt("SC_AMOUNT");
+            }
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, getData.Orderid);
+            preparedStatement.setString(2, getData.ProductChosenList.get(i));
+            preparedStatement.setInt(3, quantity);
+            preparedStatement.setString(4, getData.SizeProductChosenList.get(i));
+            preparedStatement.execute();
+
+            Connection connect = JDBCConnection.getJDBCConnection();
+            sql = "DELETE FROM SHOPPING_CART " +
+                    "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
+
+            PreparedStatement prepared = con.prepareStatement(sql);
+            prepared.setString(1, customerlogin.getId());
+            prepared.setString(2, getData.ProductChosenList.get(i));
+            prepared.setString(3, getData.SizeProductChosenList.get(i));
+            prepared.execute();
+
+        }
+
+        getData.ProductChosenList.clear();
+        getData.ProductChosenList.clear();
+
+    }
+
+    @FXML
+    public void applyVoucher(){
+        myListener.onClickListener();
+        voucher = voucherFld.getText();
+    }
+
+    public void setTotalSaveLabel(){
+        Integer total = 0;
+        Integer save = 0;
+
+        try {
+
+            for (int i=0;i < getData.ProductChosenList.size(); i++){
+                Connection connection = JDBCConnection.getJDBCConnection();
+                String query= "SELECT PRODUCT_PRICE FROM PRODUCT WHERE PRODUCT_ID= ?";
+
+
+                   PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+                preparedStatement.setString(1, getData.ProductChosenList.get(i));
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()){
+                    total+= resultSet.getInt("PRODUCT_PRICE");
+                }
+
+
+
+            }
+
+
+            if (voucherFld.getText() != null) {
+                Connection connection = JDBCConnection.getJDBCConnection();
+                String query = "SELECT * FROM VOUCHER WHERE VOUCHER_ID = ? and VOUCHER_STATUS=?";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, voucherFld.getText());
+                preparedStatement.setString(2, "INUSE");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    save = resultSet.getInt("VOUCHER_VALUE");
+                }
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        totalLabel.setText(String.valueOf(total-save));
+        saveLabel.setText(String.valueOf(save));
     }
 
     private void loadDateOrders() {
@@ -811,7 +945,6 @@ public class CustomerUIController implements Initializable {
 
         productGrid.setDisable(true);
         productGrid.setDisable(false);
-
         try {
             getProduct("Sneaker");
         } catch (MalformedURLException e) {
@@ -833,6 +966,8 @@ public class CustomerUIController implements Initializable {
         jacketBtn.setStyle("-fx-background-color: transparent");
         sneakerBtn.setStyle("-fx-background-color: #fbece4; -fx-underline: true;");
         jewelleryBtn.setStyle("-fx-background-color: transparent");
+
+
 
     }
 }

@@ -15,6 +15,7 @@ public class getData {
     public static Manager manager;
     public static Employee employee;
     public static Customer customer;
+    public static String Orderid;
 
     public static ArrayList<String> ProductChosenList = new ArrayList<>();
     public static ArrayList<String> SizeProductChosenList = new ArrayList<>();
@@ -94,5 +95,24 @@ public class getData {
         }
     }
 
+    public static void setOrderid(){
+        String orderid = null;
+        Connection connection;
+        connection = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT MAX(ORDERS_ID) FROM ORDERS";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                orderid = resultSet.getString("MAX(ORDERS_ID)");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Orderid = orderid;
+    }
 
 }

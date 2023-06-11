@@ -117,7 +117,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css" visible="false">
+      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css">
          <children>
             <ScrollPane prefHeight="450.0" prefWidth="988.0" styleClass="scroll-pane-sc" stylesheets="@mainDesign.css">
                <content>
@@ -128,17 +128,30 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <ImageView fitHeight="106.0" fitWidth="136.0" layoutX="28.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="106.0" fitWidth="136.0" layoutX="28.0" layoutY="496.0" onMouseClicked="#deleteProductSC" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../Img/delete%20sc.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="55.0" fitWidth="156.0" layoutX="772.0" layoutY="494.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="55.0" fitWidth="156.0" layoutX="822.0" layoutY="494.0" onMouseClicked="#orderSC" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../Img/order%20sc.png" />
                </image>
             </ImageView>
-            <Button layoutX="28.0" layoutY="496.0" mnemonicParsing="false" onAction="#deleteProductSC" prefHeight="51.0" prefWidth="136.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Label fx:id="originLabel" layoutX="194.0" layoutY="506.0" prefHeight="31.0" prefWidth="101.0" styleClass="label-in4product" stylesheets="@mainDesign.css" text="VOUCHER: " />
+            <TextField fx:id="voucherFld" layoutX="295.0" layoutY="504.0" prefHeight="35.0" prefWidth="215.0" styleClass="user-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="55.0" fitWidth="74.0" layoutX="598.0" layoutY="492.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Total_%20Save_.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="totalLabel" layoutX="679.0" layoutY="488.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0000000" />
+            <Label fx:id="saveLabel" layoutX="679.0" layoutY="518.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0000000" />
+            <ImageView fitHeight="32.0" fitWidth="58.0" layoutX="436.0" layoutY="507.0" onMouseClicked="#applyVoucher" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/apply.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
       <AnchorPane id="account" fx:id="account_form" layoutX="215.0" layoutY="114.0" prefHeight="592.0" prefWidth="988.0" styleClass="right-form-white" stylesheets="@mainDesign.css" visible="false">
          <children>
@@ -212,7 +225,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane id="order" fx:id="order_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css">
+      <AnchorPane id="order" fx:id="order_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css" visible="false">
          <children>
             <TableView fx:id="orderTable" layoutX="187.0" layoutY="36.0" onMouseClicked="#viewOrder" prefHeight="416.0" prefWidth="593.0">
                <columns>

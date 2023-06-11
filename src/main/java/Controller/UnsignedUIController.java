@@ -214,6 +214,7 @@ public class UnsignedUIController implements Initializable {
                     getData.setCustomer();
             }
 
+
             signInBtn.getScene().getWindow().hide();
             URL url = new File("src/main/java/Views/"+authority+"UI.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
