@@ -69,24 +69,31 @@ public class ProductSCController implements Initializable {
         imageView.setPreserveRatio(false);
         nameLabel.setText(product1.getName());
         priceLabel.setText((new DecimalFormat("#,###").format(product1.getPrice())));
-        sizeLabel.setText(sc.getSizeproduct());
+        if (sc.getSizeproduct() != null) {
+            sizeLabel.setText(sc.getSizeproduct());
+        }else
+            sizeLabel.setText("NONE");
 
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, quantitySize());
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, quantitySize(),1);
+
         quantitySpinner.setValueFactory(valueFactory);
         quantitySpinner.getValueFactory().setValue(sc.getAmount());
         quantitySpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 connection = JDBCConnection.getJDBCConnection();
-                query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
-
+                if (sc.getSizeproduct()!= null) {
+                    query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
+                }else
+                    query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? ";
                 try {
                     preparedStatement = connection.prepareStatement(query);
 
                     preparedStatement.setInt(1, newValue);
                     preparedStatement.setString(2, getData.customer.getId());
                     preparedStatement.setString(3, product1.getId());
-                    preparedStatement.setString(4, sc.getSizeproduct());
+                    if (sc.getSizeproduct()!= null)
+                        preparedStatement.setString(4, sc.getSizeproduct());
                     preparedStatement.execute();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -134,25 +141,29 @@ public class ProductSCController implements Initializable {
 
     Integer quantitySize()  {
         Integer quantity = 0;
-        connection = JDBCConnection.getJDBCConnection();
+        if(shoppingCart.getSizeproduct() != null) {
+            connection = JDBCConnection.getJDBCConnection();
 
-        query = "SELECT* FROM SIZE WHERE SIZE_PRODUCT_ID= ? AND SIZE_NAME =?";
-        try {
-            preparedStatement = connection.prepareStatement(query);
+            query = "SELECT* FROM SIZE WHERE SIZE_PRODUCT_ID= ? AND SIZE_NAME =?";
+            try {
+                preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1,shoppingCart.getProductid());
-            preparedStatement.setString(2,shoppingCart.getSizeproduct());
+                preparedStatement.setString(1, shoppingCart.getProductid());
+                preparedStatement.setString(2, shoppingCart.getSizeproduct());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                quantity = resultSet.getInt("SIZE_QUANTITY");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    quantity = resultSet.getInt("SIZE_QUANTITY");
 
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+            return quantity;
+        }else
+            return product.getQuantity();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return quantity;
     }
 
     @Override
