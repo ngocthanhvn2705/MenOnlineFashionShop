@@ -56,7 +56,7 @@ public class ManagerUIController implements Initializable {
     private Button manageVoucherBtn;
 
     @FXML
-    private Button reportBtn;
+    private Button recieptProductBtn;
 
     @FXML
     private Button logOutBtn;
@@ -90,7 +90,7 @@ public class ManagerUIController implements Initializable {
     @FXML
     private AnchorPane dashBoard_form;
     @FXML
-    private AnchorPane report_form;
+    private AnchorPane recieptProduct_Form;
     @FXML
     private AnchorPane main_form;
     @FXML
@@ -218,6 +218,24 @@ public class ManagerUIController implements Initializable {
     @FXML
     private TableColumn<Orders, String> orderVoucherIDCol;
 
+    //----------------RECEIPT PRODUCT---------
+    @FXML
+    private TableView<Product_receipt> receiptTable;
+
+    @FXML
+    private TableColumn<Product_receipt, String> idCol;
+
+    @FXML
+    private TableColumn<Product_receipt, String> dateCol;
+
+    @FXML
+    private TableColumn<Product_receipt, String> productidCol;
+
+    @FXML
+    private TableColumn<Product_receipt, Integer> quantityCol;
+
+    @FXML
+    private TableColumn<Product_receipt, Integer> priceCol;
 
     private double x = 0;
     private double y = 0;
@@ -230,11 +248,13 @@ public class ManagerUIController implements Initializable {
     Voucher voucher = null;
     Orders orders = null;
     Product product = null;
+    Product_receipt receipt = null;
     ObservableList<Employee> EmployeeList = FXCollections.observableArrayList();
     ObservableList<Customer> CustomerList = FXCollections.observableArrayList();
     ObservableList<Voucher> VoucherList = FXCollections.observableArrayList();
     ObservableList<Orders> OrdersList = FXCollections.observableArrayList();
     ObservableList<Product> ProductList = FXCollections.observableArrayList();
+    ObservableList<Product_receipt> ReceiptList = FXCollections.observableArrayList();
     public void displaySuccessful(String message) throws IOException {
         URL url = new File("src/main/java/Views/Extra/Successful.fxml").toURI().toURL();
         FXMLLoader loader = new FXMLLoader();
@@ -953,6 +973,70 @@ public class ManagerUIController implements Initializable {
     }
 
 
+    private void loadDateReceipt() {
+
+        connection = JDBCConnection.getJDBCConnection();
+        refreshReceipt();
+
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        productidCol.setCellValueFactory(new PropertyValueFactory<>("productid"));
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+    }
+
+    public void refreshReceipt() {
+        try {
+            ReceiptList.clear();
+
+            query = "SELECT * FROM `product_receipt`";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ReceiptList.add(new Product_receipt(
+                        resultSet.getString("RECEIPT_ID"),
+                        resultSet.getDate("RECEIPT_DATE"),
+                        resultSet.getString("PRODUCT_ID"),
+                        resultSet.getInt("RECEIPT_QUANTITY"),
+                        resultSet.getInt("RECEIPT_PRICE")));
+                receiptTable.setItems(ReceiptList);
+
+            }
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void receiptProduct(){
+            try {
+                URL url = new File("src/main/java/Views/Extra/ReceiptProduct.fxml").toURI().toURL();
+                Parent root = FXMLLoader.load(url);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+
+                root.setOnMousePressed((MouseEvent event) -> {
+                    x = event.getSceneX();
+                    y = event.getSceneY();
+                });
+
+                root.setOnMouseDragged((MouseEvent event) -> {
+                    stage.setX(event.getScreenX() - x);
+                    stage.setY(event.getScreenY() - y);
+                });
+
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (IOException ex) {
+                Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+    }
 
     @FXML
     void minimize(ActionEvent event) {
@@ -988,6 +1072,8 @@ public class ManagerUIController implements Initializable {
         stage.show();
     }
 
+
+
     @FXML
     void switchForm(ActionEvent event) {
         if (event.getSource() == dashboardBtn) {
@@ -997,7 +1083,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
@@ -1006,7 +1092,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageEmployeeBtn) {
             dashBoard_form.setVisible(false);
@@ -1015,7 +1101,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1024,7 +1110,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageCustomerbtn) {
             dashBoard_form.setVisible(false);
@@ -1033,7 +1119,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1042,7 +1128,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageOrderBtn) {
             dashBoard_form.setVisible(false);
@@ -1051,7 +1137,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(true);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1060,7 +1146,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: #BAD1C2");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageProductBtn) {
             dashBoard_form.setVisible(false);
@@ -1069,7 +1155,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(true);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1078,7 +1164,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: #BAD1C2");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageVoucherBtn) {
             dashBoard_form.setVisible(false);
@@ -1087,7 +1173,7 @@ public class ManagerUIController implements Initializable {
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(true);
-            report_form.setVisible(false);
+            recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1096,16 +1182,16 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: #BAD1C2");
-            reportBtn.setStyle("-fx-background-color: transparent");
+            recieptProductBtn.setStyle("-fx-background-color: transparent");
 
-        } else if (event.getSource() == reportBtn) {
+        } else if (event.getSource() == recieptProductBtn) {
             dashBoard_form.setVisible(false);
             manageEmployee_form.setVisible(false);
             manageCustomer_form.setVisible(false);
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             manageVoucher_form.setVisible(false);
-            report_form.setVisible(true);
+            recieptProduct_Form.setVisible(true);
             confirmForm.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
@@ -1114,7 +1200,7 @@ public class ManagerUIController implements Initializable {
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
             manageVoucherBtn.setStyle("-fx-background-color: transparent");
-            reportBtn.setStyle("-fx-background-color: #BAD1C2");
+            recieptProductBtn.setStyle("-fx-background-color: #BAD1C2");
 
         }
     }
@@ -1126,7 +1212,7 @@ public class ManagerUIController implements Initializable {
         manageOrder_form.setVisible(false);
         manageProduct_form.setVisible(false);
         manageVoucher_form.setVisible(false);
-        report_form.setVisible(false);
+        recieptProduct_Form.setVisible(false);
         confirmForm.setVisible(false);
 
         dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
@@ -1135,7 +1221,7 @@ public class ManagerUIController implements Initializable {
         manageOrderBtn.setStyle("-fx-background-color: transparent");
         manageProductBtn.setStyle("-fx-background-color: transparent");
         manageVoucherBtn.setStyle("-fx-background-color: transparent");
-        reportBtn.setStyle("-fx-background-color: transparent");
+        recieptProductBtn.setStyle("-fx-background-color: transparent");
     }
 
     public void displayUsername() {
@@ -1166,5 +1252,7 @@ public class ManagerUIController implements Initializable {
 
         loadDateProduct();
         searchProduct();
+
+        loadDateReceipt();
     }
 }

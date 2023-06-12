@@ -145,8 +145,8 @@
                   <Image url="@../Img/Total_%20Save_.png" />
                </image>
             </ImageView>
-            <Label fx:id="totalLabel" layoutX="679.0" layoutY="488.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0000000" />
-            <Label fx:id="saveLabel" layoutX="679.0" layoutY="518.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0000000" />
+            <Label fx:id="totalLabel" layoutX="679.0" layoutY="488.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0" />
+            <Label fx:id="saveLabel" layoutX="679.0" layoutY="518.0" prefHeight="38.0" prefWidth="136.0" style="-fx-font-size: 25px;" styleClass="label-in4product" stylesheets="@mainDesign.css" text="0" />
             <ImageView fitHeight="32.0" fitWidth="58.0" layoutX="436.0" layoutY="507.0" onMouseClicked="#applyVoucher" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/apply.png" />

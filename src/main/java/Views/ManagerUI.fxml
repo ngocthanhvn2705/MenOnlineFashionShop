@@ -56,7 +56,7 @@
             <Button fx:id="manageOrderBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Order" />
             <Button fx:id="manageProductBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Product" />
             <Button fx:id="manageVoucherBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Manage Voucher" />
-            <Button fx:id="reportBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Report" />
+            <Button fx:id="recieptProductBtn" mnemonicParsing="false" onAction="#switchForm" prefHeight="55.0" prefWidth="220.0" styleClass="left-button-label" text="Receipt Product" />
             <AnchorPane prefHeight="124.0" prefWidth="215.0">
                <children>
                   <Button fx:id="logOutBtn" layoutX="22.0" layoutY="67.0" mnemonicParsing="false" onAction="#logOut" styleClass="sign-out" stylesheets="@mainDesign.css">
@@ -123,7 +123,7 @@
             <TableView fx:id="employeeTable" layoutY="145.0" onMouseClicked="#viewEmployee" prefHeight="520.0" prefWidth="988.0">
               <columns>
                 <TableColumn fx:id="employeeIDCol" prefWidth="60.79997253417969" text="ID" />
-                <TableColumn fx:id="employeeUsernameCol" prefWidth="141.60003662109375" text="Username" />
+                <TableColumn fx:id="employeeUsernameCol" prefWidth="141.60003662109375" text="USERNAME" />
                   <TableColumn fx:id="employeeNameCol" prefWidth="140.79998779296875" text="NAME" />
                   <TableColumn fx:id="employeeBirthCol" prefWidth="118.4000244140625" text="BIRTH" />
                   <TableColumn fx:id="employeeGenderCol" prefWidth="87.2000732421875" text="GENDER" />
@@ -140,7 +140,7 @@
             <Button layoutX="685.0" layoutY="74.0" mnemonicParsing="false" onAction="#refreshEmployee" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children>
       </AnchorPane>
-      <AnchorPane id="manageCustomer" fx:id="manageCustomer_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
+      <AnchorPane id="manageCustomer" fx:id="manageCustomer_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
          <children>
             <TextField fx:id="searchCustomerFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -284,7 +284,34 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane id="Report" fx:id="report_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false" />
+      <AnchorPane id="Reciept Product" fx:id="recieptProduct_Form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
+         <children>
+            <TableView fx:id="receiptTable" layoutX="203.0" layoutY="146.0" prefHeight="446.0" prefWidth="546.0">
+              <columns>
+                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="dateCol" prefWidth="131.0" text="DATE" />
+                  <TableColumn fx:id="productidCol" prefWidth="147.0" text="PRODUCT ID" />
+                  <TableColumn fx:id="quantityCol" prefWidth="76.0" text="QUANTITY" />
+                  <TableColumn fx:id="priceCol" prefWidth="116.0" text="PRICE" />
+              </columns>
+            </TableView>
+            <ImageView fitHeight="59.0" fitWidth="110.0" layoutX="275.0" layoutY="71.0" onMouseClicked="#receiptProduct" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../Img/Receipt.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="searchVoucherFld1" layoutX="181.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="187.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/Search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="53.0" fitWidth="119.0" layoutX="500.0" layoutY="71.0" onMouseClicked="#refreshReceipt" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../Img/Refresh.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
       <AnchorPane id="dashboard" fx:id="dashBoard_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false" />
       <AnchorPane id="confirmForm" fx:id="confirmForm" layoutX="356.0" layoutY="223.0" prefHeight="266.0" prefWidth="614.0" visible="false">
          <children>
