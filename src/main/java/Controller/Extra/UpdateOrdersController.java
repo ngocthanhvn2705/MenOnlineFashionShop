@@ -56,6 +56,8 @@ public class UpdateOrdersController implements Initializable {
 
     @FXML
     private TableColumn<Order_Items, String> sizeCol;
+    @FXML
+    private TableColumn<Order_Items, String> productNameCol;
 
     @FXML
     private ComboBox<String> statusCombobox;
@@ -156,6 +158,7 @@ public class UpdateOrdersController implements Initializable {
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<>("product_name"));
     }
 
     public void refreshOrder_Items() {
@@ -169,17 +172,30 @@ public class UpdateOrdersController implements Initializable {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                String name = null;
+                Connection connect = JDBCConnection.getJDBCConnection();
+                String query1 = "SELECT * FROM `product` WHERE PRODUCT_ID = ?" ;
+
+                PreparedStatement pre = connect.prepareStatement(query1);
+                pre.setString(1, resultSet.getString("OI_PRODUCT_ID"));
+                ResultSet rs = pre.executeQuery();
+                if(rs.next()){
+                    name = rs.getString("PRODUCT_NAME");
+                }
+
+
                 Order_ItemsList.add(new Order_Items(
                         resultSet.getString("OI_ORDERS_ID"),
                         resultSet.getString("OI_PRODUCT_ID"),
                         resultSet.getInt("OI_QUANTITY"),
                         resultSet.getInt("OI_PRICE"),
-                        resultSet.getString("OI_SIZE")));
+                        resultSet.getString("OI_SIZE"),
+                        name));
                 orderItemsTable.setItems(Order_ItemsList);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateOrdersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

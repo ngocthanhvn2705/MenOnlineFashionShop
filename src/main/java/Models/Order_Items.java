@@ -6,13 +6,23 @@ public class Order_Items {
     Integer quantity;
     Integer price;
     String size;
+    String product_name;
 
-    public Order_Items(String id, String product_id, Integer quantity, Integer price, String size) {
+    public Order_Items(String id, String product_id, Integer quantity, Integer price, String size, String product_name) {
         this.id = id;
         this.product_id = product_id;
         this.quantity = quantity;
         this.price = price;
         this.size = size;
+        this.product_name = product_name;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
     public String getId() {
