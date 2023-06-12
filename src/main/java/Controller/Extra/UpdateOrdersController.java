@@ -83,6 +83,10 @@ public class UpdateOrdersController implements Initializable {
         statusCombobox.setValue(status);
         if (status.equals("DONE")){
             statusCombobox.setItems(FXCollections.observableArrayList("DONE"));
+        } else if (status.equals("DELIVERING")) {
+            statusCombobox.setItems(FXCollections.observableArrayList("DONE", "CANCELED"));
+        } else if (status.equals("CANCELED")) {
+            statusCombobox.setItems(FXCollections.observableArrayList("CANCELED"));
         }
     }
 

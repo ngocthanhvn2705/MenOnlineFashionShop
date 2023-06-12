@@ -239,6 +239,7 @@ public class EmployeeUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchCustomer();
     }
 
     public void viewOrderCustomer(MouseEvent event) throws MalformedURLException {
@@ -264,6 +265,7 @@ public class EmployeeUIController implements Initializable {
             stage.setScene(new Scene(parent));
             stage.show();
         }
+        searchCustomer();
     }
 
     public void searchCustomer() {
@@ -345,6 +347,7 @@ public class EmployeeUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchOrder();
     }
 
     public void updateOrder(MouseEvent event) throws IOException {
@@ -370,7 +373,7 @@ public class EmployeeUIController implements Initializable {
         stage.setScene(new Scene(parent));
         stage.show();
 
-
+        searchOrder();
 
     }
     public void cancelOrderBtn(){
@@ -388,12 +391,14 @@ public class EmployeeUIController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchOrder();
     }
 
     public void viewOrder(MouseEvent event) throws IOException {
         if (event.getClickCount() == 2){
             updateOrder(event);
         }
+
     }
 
     public void searchOrder() {
@@ -432,6 +437,7 @@ public class EmployeeUIController implements Initializable {
         sortedOrders.comparatorProperty().bind(orderTable.comparatorProperty());
 
         orderTable.setItems(sortedOrders);
+
     }
 
     private void loadDateProduct(){
@@ -481,6 +487,7 @@ public class EmployeeUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchProduct();
     }
 
     public void updateProduct(MouseEvent event) throws MalformedURLException {
@@ -504,6 +511,7 @@ public class EmployeeUIController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
         refreshProduct();
+        searchProduct();
     }
 
     public void insertProduct() {
@@ -530,6 +538,7 @@ public class EmployeeUIController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchProduct();
     }
 
     public void viewProduct(MouseEvent event) throws MalformedURLException {

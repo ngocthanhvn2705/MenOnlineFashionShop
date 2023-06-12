@@ -36,6 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PipedReader;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
@@ -350,26 +351,29 @@ public class CustomerUIController implements Initializable {
         }else  if(phone.length() >11 ) {
             displayError("Phone Number cannot be more than 11 characters");
 
-        }else if ((!newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())
-                    && !newpasswordFld.getText().equals(retypenewpasswordFld.getText())){
-            displayError("The passwords do not match");
-
-        }else if ((!newpasswordFld.getText().isEmpty() && retypenewpasswordFld.getText().isEmpty())
-                    || (newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())) {
+        }else if ((newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())
+                || (!newpasswordFld.getText().isEmpty() && retypenewpasswordFld.getText().isEmpty())) {
             displayError("Please Fill New Password/Re-type new password");
 
-        }else
+        }else if ((!newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty())
+                        && !newpasswordFld.getText().equals(retypenewpasswordFld.getText())){
+                displayError("The passwords do not match");
+
+        }else {
             confirmAccountForm.setVisible(true);
+        }
+
     }
 
     public void saveInformationCustomer() throws SQLException, IOException {
+        connection = JDBCConnection.getJDBCConnection();
         query = "UPDATE `customer` SET "
                 + "`CUSTOMER_NAME`=?,"
                 + "`CUSTOMER_BIRTH`=?,"
                 + "`CUSTOMER_GENDER`= ?,"
                 + "`CUSTOMER_ADDRESS`= ?,"
                 + "`CUSTOMER_PHONE`= ?,"
-                + "`CUSTOMER_EMAIL`= ? WHERE CUSTOMER_ID = '"+customerlogin.getUsername()+"'";
+                + "`CUSTOMER_EMAIL`= ? WHERE CUSTOMER_ID = '"+customerlogin.getId()+"'";
 
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1,nameFld.getText());
@@ -380,9 +384,10 @@ public class CustomerUIController implements Initializable {
         preparedStatement.setString(6, emailFld.getText());
         preparedStatement.execute();
 
-        if (newpasswordFld.getText()!= null && retypenewpasswordFld.getText()!= null){
+        if (!newpasswordFld.getText().isEmpty() && !retypenewpasswordFld.getText().isEmpty()){
             query = "UPDATE `acc` SET `ACC_PASSWORD` = ? WHERE ACC_USERNAME = '"+customerlogin.getUsername()+"'";
             preparedStatement = connection.prepareStatement(query);
+
             preparedStatement.setString(1,newpasswordFld.getText());
             preparedStatement.execute();
         }
@@ -628,7 +633,7 @@ public class CustomerUIController implements Initializable {
     public void setTotalSaveLabel(){
         Integer total = 0;
         Integer save = 0;
-
+        Integer amount = 0;
         try {
 
             for (int i=0;i < getData.ProductChosenList.size(); i++){
@@ -642,10 +647,21 @@ public class CustomerUIController implements Initializable {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()){
-                    total+= resultSet.getInt("PRODUCT_PRICE");
+                    Connection connection1 = JDBCConnection.getJDBCConnection();
+                    String query1 = "SELECT * FROM SHOPPING_CART WHERE SC_PRODUCT_ID= ? and SC_SIZE_PRODUCT= ?" +
+                            "and SC_CUSTOMER_ID= ?";
+
+                    PreparedStatement pre  = connection1.prepareStatement(query1);
+                    pre.setString(1,getData.ProductChosenList.get(i));
+                    pre.setString(2, getData.SizeProductChosenList.get(i));
+                    pre.setString(3, customerlogin.getId());
+                    ResultSet rs = pre.executeQuery();
+                    if (rs.next()){
+                        total+= rs.getInt("SC_PRICE");
+                    }
+
+//                    total+= resultSet.getInt("PRODUCT_PRICE");
                 }
-
-
 
             }
 

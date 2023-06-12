@@ -336,6 +336,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchCustomer();
     }
 
     public void viewOrderCustomer(MouseEvent event) throws MalformedURLException {
@@ -361,6 +362,7 @@ public class ManagerUIController implements Initializable {
             stage.setScene(new Scene(parent));
             stage.show();
         }
+        searchCustomer();
     }
 
     public void searchCustomer() {
@@ -442,6 +444,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchOrder();
     }
 
     public void updateOrder(MouseEvent event) throws IOException {
@@ -466,6 +469,7 @@ public class ManagerUIController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(new Scene(parent));
         stage.show();
+        searchOrder();
     }
     public void cancelOrderBtn(){
         confirmForm.setVisible(true);
@@ -482,6 +486,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchOrder();
     }
 
     public void viewOrder(MouseEvent event) throws IOException {
@@ -575,6 +580,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchProduct();
     }
 
     public void updateProduct(MouseEvent event) throws MalformedURLException {
@@ -598,6 +604,7 @@ public class ManagerUIController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
         refreshProduct();
+        searchProduct();
     }
 
     public void insertProduct() {
@@ -624,6 +631,7 @@ public class ManagerUIController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchProduct();
     }
 
     public void viewProduct(MouseEvent event) throws MalformedURLException {
@@ -710,6 +718,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchVoucher();
     }
 
     public void insertVoucher() {
@@ -737,7 +746,7 @@ public class ManagerUIController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        searchVoucher();
     }
 
     public void updateVoucher(MouseEvent event) throws MalformedURLException {
@@ -761,6 +770,7 @@ public class ManagerUIController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
         refreshVoucher();
+        searchVoucher();
     }
 
 
@@ -823,6 +833,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchEmployee();
     }
 
     public void insertEmployee() {
@@ -852,6 +863,7 @@ public class ManagerUIController implements Initializable {
         }
         refreshEmployee();
         employeeTable.refresh();
+        searchEmployee();
     }
 
 
@@ -882,6 +894,7 @@ public class ManagerUIController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchEmployee();
     }
 
     @FXML
@@ -917,7 +930,7 @@ public class ManagerUIController implements Initializable {
         stage.setScene(new Scene(parent));
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
-
+        searchEmployee();
     }
 
     private void loadDateEmployee() {

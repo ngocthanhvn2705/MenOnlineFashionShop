@@ -78,13 +78,13 @@ public class ProductSCController implements Initializable {
 
 
 
-    public void setProductSC(Product product1, Shopping_Cart sc, MyListener myListener){
+    public void setProductSC(Product product1, Shopping_Cart sc, MyListener myListener1){
         this.shoppingCart = sc;
         this.product = product1;
         if (shoppingCart.getSizeproduct() == null){
             shoppingCart.setSizeproduct("FREE SIZE");
         }
-
+        this.myListener = myListener1;
         imageView.setImage(product1.getImage());
         imageView.setFitHeight(170);
         imageView.setFitWidth(170);
@@ -116,9 +116,9 @@ public class ProductSCController implements Initializable {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                myListener.onClickListener();
             }
         });
-        this.myListener = myListener;
     }
     @FXML
     public void viewProductSC(MouseEvent event) throws MalformedURLException {
