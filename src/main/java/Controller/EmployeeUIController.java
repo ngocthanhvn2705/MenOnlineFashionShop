@@ -36,8 +36,7 @@ import Models.Employee;
 import javafx.stage.StageStyle;
 
 public class EmployeeUIController implements Initializable {
-    @FXML
-    private Button dashboardBtn;
+
     @FXML
     private Button manageCustomerbtn;
 
@@ -54,8 +53,6 @@ public class EmployeeUIController implements Initializable {
     @FXML
     private Label employeeNameLablel;
 
-    @FXML
-    private AnchorPane dashBoard_form;
 
     @FXML
     private AnchorPane main_form;
@@ -621,50 +618,32 @@ public class EmployeeUIController implements Initializable {
 
     @FXML
     void switchForm(ActionEvent event) {
-        if (event.getSource() == dashboardBtn) {
-            dashBoard_form.setVisible(true);
-            manageCustomer_form.setVisible(false);
-            manageOrder_form.setVisible(false);
-            manageProduct_form.setVisible(false);
-            confirmForm.setVisible(false);
-
-            dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
-            manageCustomerbtn.setStyle("-fx-background-color: transparent");
-            manageOrderBtn.setStyle("-fx-background-color: transparent");
-            manageProductBtn.setStyle("-fx-background-color: transparent");
-
-        } else if (event.getSource() == manageCustomerbtn) {
-            dashBoard_form.setVisible(false);
+        if (event.getSource() == manageCustomerbtn) {
             manageCustomer_form.setVisible(true);
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(false);
             confirmForm.setVisible(false);
 
-            dashboardBtn.setStyle("-fx-background-color: transparent");
             manageCustomerbtn.setStyle("-fx-background-color: #BAD1C2");
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageOrderBtn) {
-            dashBoard_form.setVisible(false);
             manageCustomer_form.setVisible(false);
             manageOrder_form.setVisible(true);
             manageProduct_form.setVisible(false);
             confirmForm.setVisible(false);
 
-            dashboardBtn.setStyle("-fx-background-color: transparent");
             manageCustomerbtn.setStyle("-fx-background-color: transparent");
             manageOrderBtn.setStyle("-fx-background-color: #BAD1C2");
             manageProductBtn.setStyle("-fx-background-color: transparent");
 
         } else if (event.getSource() == manageProductBtn) {
-            dashBoard_form.setVisible(false);
             manageCustomer_form.setVisible(false);
             manageOrder_form.setVisible(false);
             manageProduct_form.setVisible(true);
             confirmForm.setVisible(false);
 
-            dashboardBtn.setStyle("-fx-background-color: transparent");
             manageCustomerbtn.setStyle("-fx-background-color: transparent");
             manageOrderBtn.setStyle("-fx-background-color: transparent");
             manageProductBtn.setStyle("-fx-background-color: #BAD1C2");
@@ -673,14 +652,12 @@ public class EmployeeUIController implements Initializable {
     }
 
     void startForm(){
-        dashBoard_form.setVisible(true);
-        manageCustomer_form.setVisible(false);
+        manageCustomer_form.setVisible(true);
         manageOrder_form.setVisible(false);
         manageProduct_form.setVisible(false);
         confirmForm.setVisible(false);
 
-        dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
-        manageCustomerbtn.setStyle("-fx-background-color: transparent");
+        manageCustomerbtn.setStyle("-fx-background-color: #BAD1C2");
         manageOrderBtn.setStyle("-fx-background-color: transparent");
         manageProductBtn.setStyle("-fx-background-color: transparent");
     }
