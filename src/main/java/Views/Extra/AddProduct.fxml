@@ -43,7 +43,7 @@
       </ImageView>
       <TextField fx:id="idFld" layoutX="467.0" layoutY="48.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
       <TextField fx:id="nameFld" layoutX="467.0" layoutY="97.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
-      <TextField fx:id="descriptionFld" layoutX="467.0" layoutY="143.0" prefHeight="81.0" prefWidth="313.0" styleClass="description-texfield" stylesheets="@../mainDesign.css" />
+      <TextField fx:id="descriptionFld" layoutX="467.0" layoutY="143.0" prefHeight="81.0" prefWidth="306.0" styleClass="description-texfield" stylesheets="@../mainDesign.css" />
       <TextField fx:id="priceFld" layoutX="467.0" layoutY="246.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
       <TextField fx:id="quantityFld" layoutX="467.0" layoutY="298.0" prefHeight="34.0" prefWidth="313.0" styleClass="signup-texfield" stylesheets="@../mainDesign.css" />
       <RadioButton fx:id="statusAvailable" layoutX="457.0" layoutY="353.0" mnemonicParsing="false" onAction="#getStatus" styleClass="radioButton" stylesheets="@../mainDesign.css" text="AVAILABLE" textFill="#7b0505">

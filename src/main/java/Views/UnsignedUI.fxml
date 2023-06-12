@@ -62,7 +62,7 @@
             <Button layoutX="959.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="25.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children>
       </AnchorPane>
-      <AnchorPane id="shoppingpage" fx:id="shopping_page" layoutX="215.0" layoutY="24.0" prefHeight="679.0" prefWidth="988.0" styleClass="right-form" stylesheets="@mainDesign.css">
+      <AnchorPane id="shoppingpage" fx:id="shopping_page" layoutX="215.0" layoutY="24.0" prefHeight="679.0" prefWidth="988.0" styleClass="right-form" stylesheets="@mainDesign.css" visible="false">
          <children>
             <TextField fx:id="searchProductFLd" layoutX="181.0" layoutY="26.0" onKeyPressed="#searchProduct" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="191.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
@@ -118,7 +118,7 @@
             <Button fx:id="loginBtn" layoutX="801.0" layoutY="26.0" mnemonicParsing="false" onAction="#loginCus" prefHeight="38.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children>
       </AnchorPane>
-      <AnchorPane id="login" fx:id="login_form" layoutX="215.0" layoutY="31.0" prefHeight="670.0" prefWidth="988.0" visible="false">
+      <AnchorPane id="login" fx:id="login_form" layoutX="215.0" layoutY="31.0" prefHeight="670.0" prefWidth="988.0">
          <children>
             <ImageView fitHeight="30.0" fitWidth="171.0" layoutX="167.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -142,9 +142,9 @@
                   <Image url="@../Img/Sign%20in.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="385.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="394.0" layoutY="462.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Img/Reset%20password%20_.png" />
+                  <Image url="@../Img/Forgot%20password%20_.png" />
                </image>
             </ImageView>
             <Line endX="100.0" layoutX="487.0" layoutY="488.0" startX="-100.0" />
@@ -154,7 +154,7 @@
                </image>
             </ImageView>
             <Button layoutX="804.0" layoutY="15.0" mnemonicParsing="false" onAction="#exitLog" prefHeight="38.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
-            <Button layoutX="369.0" layoutY="453.0" mnemonicParsing="false" onAction="#resetPassword" prefHeight="42.0" prefWidth="230.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="374.0" layoutY="454.0" mnemonicParsing="false" onAction="#resetPassword" prefHeight="42.0" prefWidth="230.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="42.0" fitWidth="171.0" layoutX="424.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/Rectangle%208.png" />

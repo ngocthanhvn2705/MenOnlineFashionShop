@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -29,6 +31,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -237,6 +240,14 @@ public class ManagerUIController implements Initializable {
     @FXML
     private TableColumn<Product_receipt, Integer> priceCol;
 
+    @FXML
+    private Label dashboard_TO;
+    @FXML
+    private Label dashboard_TI;
+    @FXML
+    private Label dashboard_TC;
+    @FXML
+    private AreaChart<?, ?> dashboard_incomeChart;
     private double x = 0;
     private double y = 0;
     String query = null;
@@ -1038,16 +1049,6 @@ public class ManagerUIController implements Initializable {
 
     }
 
-    @FXML
-    void minimize(ActionEvent event) {
-        Stage stage = (Stage) this.main_form.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    void close(ActionEvent event) {
-        System.exit(0);
-    }
 
     @FXML
     public void logOut() throws IOException {
@@ -1072,6 +1073,92 @@ public class ManagerUIController implements Initializable {
         stage.show();
     }
 
+    public void dashboardTO(){
+        String sql = "SELECT COUNT(ORDERS_ID) FROM ORDERS";
+        connection = JDBCConnection.getJDBCConnection();
+        int countTO = 0;
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (this.resultSet.next()) {
+                countTO = resultSet.getInt("COUNT(ORDERS_ID)");
+            }
+
+            dashboard_TO.setText(String.valueOf(countTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dashboardTI(){
+        String sql = "SELECT SUM(ORDERS_PRICE) FROM ORDERS";
+        connection = JDBCConnection.getJDBCConnection();
+        int countTI = 0;
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (this.resultSet.next()) {
+                countTI = resultSet.getInt("SUM(ORDERS_PRICE)");
+            }
+
+            dashboard_TI.setText("$" + (new DecimalFormat("#,###").format(countTI)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dashboardTC(){
+        String sql = "SELECT COUNT(CUSTOMER_ID) FROM CUSTOMER";
+        connection = JDBCConnection.getJDBCConnection();
+        int countTC = 0;
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (this.resultSet.next()) {
+                countTC = resultSet.getInt("COUNT(CUSTOMER_ID)");
+            }
+
+            dashboard_TC.setText(String.valueOf(countTC));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dashboardIncomeChart() {
+        this.dashboard_incomeChart.getData().clear();
+        String sql = "SELECT ORDERS_DATE, SUM(ORDERS_PRICE) FROM ORDERS GROUP BY ORDERS_DATE ORDER BY TIMESTAMP(ORDERS_DATE) ASC ";
+        connection = JDBCConnection.getJDBCConnection();
+
+        try {
+            XYChart.Series chart = new XYChart.Series();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while(this.resultSet.next()) {
+                chart.getData().add(new XYChart.Data(this.resultSet.getString("ORDERS_DATE"),
+                                                    this.resultSet.getInt("SUM(ORDERS_PRICE)")));
+            }
+
+            this.dashboard_incomeChart.getData().add(chart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void minimize(ActionEvent event) {
+        Stage stage = (Stage) this.main_form.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    void close(ActionEvent event) {
+        System.exit(0);
+    }
 
 
     @FXML
@@ -1231,7 +1318,12 @@ public class ManagerUIController implements Initializable {
     }
     Manager managerlogin ;
 
-
+    public void startDashBoard(){
+        dashboardTO();
+        dashboardTI();
+        dashboardTC();
+        dashboardIncomeChart();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         managerlogin = getData.manager;
@@ -1254,5 +1346,7 @@ public class ManagerUIController implements Initializable {
         searchProduct();
 
         loadDateReceipt();
+
+        startDashBoard();
     }
 }
