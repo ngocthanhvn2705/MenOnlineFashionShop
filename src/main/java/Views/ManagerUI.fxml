@@ -99,7 +99,7 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="manageEmployee" fx:id="manageEmployee_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
+      <AnchorPane id="manageEmployee" fx:id="manageEmployee_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
          <children>
             <TextField fx:id="searchEmployeeFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -173,7 +173,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane id="manageOrder" fx:id="manageOrder_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+      <AnchorPane id="manageOrder" fx:id="manageOrder_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
          <children>
             <TextField fx:id="searchOrderFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -181,24 +181,24 @@
                   <Image url="@../Img/Search.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="472.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="344.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/Cancel.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="220.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="165.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/Update.png" />
                </image>
             </ImageView>
-            <Button layoutX="476.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelOrderBtn" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
-            <Button layoutX="223.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#updateOrder" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
-            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="711.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+            <Button layoutX="348.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelOrderBtn" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="168.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#updateOrder" prefHeight="51.0" prefWidth="102.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <ImageView fitHeight="66.0" fitWidth="110.0" layoutX="539.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/Refresh.png" />
                </image>
             </ImageView>
-            <Button layoutX="711.0" layoutY="73.0" mnemonicParsing="false" onAction="#refreshOrder" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="539.0" layoutY="73.0" mnemonicParsing="false" onAction="#refreshOrder" prefHeight="51.0" prefWidth="110.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
             <TableView fx:id="orderTable" layoutX="143.0" layoutY="146.0" onMouseClicked="#viewOrder" prefHeight="520.0" prefWidth="739.0">
                <columns>
                   <TableColumn fx:id="orderIDCol" prefWidth="60.79997253417969" text="ID" />
@@ -209,6 +209,12 @@
                   <TableColumn fx:id="orderPriceCol" prefWidth="138.4000122070313" text="PRICE ($)" />
                </columns>
             </TableView>
+            <ImageView fitHeight="61.0" fitWidth="131.0" layoutX="720.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Img/print.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="727.0" layoutY="75.0" mnemonicParsing="false" onAction="#printInvoice" prefHeight="52.0" prefWidth="113.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children>
       </AnchorPane>
       <AnchorPane id="manageProduct" fx:id="manageProduct_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
@@ -326,7 +332,7 @@
             </ImageView>
             <Button layoutX="249.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancel" prefHeight="34.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
             <Button layoutX="360.0" layoutY="144.0" mnemonicParsing="false" onAction="#confirm" prefHeight="34.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
-            <Button layoutX="508.0" layoutY="82.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="28.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
+            <Button layoutX="454.0" layoutY="21.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="28.0" styleClass="logBtn" stylesheets="@mainDesign.css" />
          </children>
       </AnchorPane>
       <AnchorPane id="dashboard" fx:id="dashBoard_form" layoutX="215.0" layoutY="106.0" prefHeight="597.0" prefWidth="988.0" styleClass="white-bg" stylesheets="@mainDesign.css" visible="false">

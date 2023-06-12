@@ -92,22 +92,22 @@
          </image>
       </ImageView>
       <Button layoutX="28.0" layoutY="353.0" mnemonicParsing="false" onAction="#productInsertImage" prefHeight="31.0" prefWidth="291.0" styleClass="addimage-btn" stylesheets="@../mainDesign.css" text="Import" />
-      <AnchorPane fx:id="confirmForm" layoutX="203.0" layoutY="133.0" prefHeight="219.0" prefWidth="410.0" visible="false">
-         <children>
-            <ImageView fitHeight="176.0" fitWidth="410.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../Img/Untitled.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="166.0" layoutY="145.0" mnemonicParsing="false" onAction="#cancel" prefHeight="34.0" prefWidth="98.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
-            <Button layoutX="278.0" layoutY="145.0" mnemonicParsing="false" onAction="#confirm" prefHeight="34.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
-            <Button layoutX="378.0" layoutY="21.0" mnemonicParsing="false" onAction="#cancel" prefHeight="31.0" prefWidth="30.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
-         </children>
-      </AnchorPane>
       <BorderPane layoutX="28.0" layoutY="115.0" prefHeight="230.0" prefWidth="291.0">
          <center>
             <ImageView fx:id="product_imageView" fitHeight="231.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8,0,0,0);" styleClass="shadow" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
+      <AnchorPane fx:id="confirmForm" layoutX="203.0" layoutY="133.0" prefHeight="219.0" prefWidth="410.0" visible="false">
+         <children>
+            <ImageView fitHeight="193.0" fitWidth="456.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Img/save%20product.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="177.0" layoutY="156.0" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="114.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+            <Button layoutX="309.0" layoutY="156.0" mnemonicParsing="false" onAction="#confirm" prefHeight="34.0" prefWidth="108.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+            <Button layoutX="417.0" layoutY="21.0" mnemonicParsing="false" onAction="#cancel" prefHeight="31.0" prefWidth="30.0" styleClass="logBtn" stylesheets="@../mainDesign.css" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

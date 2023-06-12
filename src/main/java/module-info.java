@@ -3,6 +3,7 @@ module Main {
     requires javafx.fxml;
     requires javafx.web;
     requires java.sql;
+    requires itextpdf;
 
 
     opens Main to javafx.fxml;

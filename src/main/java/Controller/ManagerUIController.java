@@ -3,6 +3,7 @@ package Controller;
 import Controller.Extra.*;
 import Database.JDBCConnection;
 import Models.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,12 +23,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
@@ -38,6 +37,14 @@ import java.util.logging.Logger;
 import Models.Employee;
 import Models.getData;
 import javafx.stage.StageStyle;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.*;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 
 import static Models.getData.username;
 
@@ -281,6 +288,26 @@ public class ManagerUIController implements Initializable {
         stage.setScene(new Scene(parent));
         stage.show();
     }
+
+    public void displayError(String message) throws IOException {
+        URL url = new File("src/main/java/Views/Extra/Error.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(url);
+        loader.load();
+
+        ErrorController errorController = loader.getController();
+        errorController.setLabel(message);
+
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(new Scene(parent));
+        stage.show();
+    }
+
+
+
+
     public void cancel() {
         confirmForm.setVisible(false);
     }
@@ -1361,4 +1388,186 @@ public class ManagerUIController implements Initializable {
 
         startDashBoard();
     }
+
+    public void printInvoice(){
+        try {
+            orders = orderTable.getSelectionModel().getSelectedItem();
+
+            Connection connection = JDBCConnection.getJDBCConnection();
+
+            // Lấy thông tin hóa đơn từ bảng ORDERS
+            String orderQuery = "SELECT * FROM ORDERS WHERE ORDERS_ID = ?";
+            PreparedStatement orderStatement = connection.prepareStatement(orderQuery);
+            orderStatement.setString(1, orders.getId());
+            ResultSet orderResult = orderStatement.executeQuery();
+            if (orderResult.next()) {
+                // Lấy thông tin khách hàng từ bảng CUSTOMER
+                String customerId = orderResult.getString("ORDERS_CUSTOMER_ID");
+                String customerQuery = "SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+                PreparedStatement customerStatement = connection.prepareStatement(customerQuery);
+                customerStatement.setString(1, customerId);
+                ResultSet customerResult = customerStatement.executeQuery();
+                if (customerResult.next()) {
+                    // Mở FileChooser để chọn nơi lưu tệp PDF
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Save Invoice");
+                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+                    File file = fileChooser.showSaveDialog(new Stage());
+
+                    if (file != null) {
+                        String filePath = file.getAbsolutePath();
+
+                        // Tạo tệp PDF
+                        Document document = new Document(PageSize.A4);
+                        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                        document.open();
+
+
+                        document.add(new Paragraph("Order Invoice"));
+                        document.add(new Paragraph("------------------------------"));
+                        document.add(new Paragraph("CONSIGNEE:"));
+                        document.add(new Paragraph("Slaves of Deadlines"));
+                        document.add(new Paragraph("Phone Number: 0373839458"));
+                        document.add(new Paragraph("Address: UIT, Quarter 6, Linh Trung Ward, Thu Duc City, Ho Chi Minh City"));
+                        document.add(new Paragraph("------------------------------"));
+
+
+                        document.add(new Paragraph("PARTY OF GOODS:"));
+                        document.add(new Paragraph("Order ID: " + orderResult.getString("ORDERS_ID")));
+                        document.add(new Paragraph("Order Date: " + orderResult.getDate("ORDERS_DATE")));
+                        document.add(new Paragraph("Customer Name: " + customerResult.getString("CUSTOMER_NAME")));
+                        document.add(new Paragraph("Address: " + customerResult.getString("CUSTOMER_ADDRESS")));
+                        document.add(new Paragraph("Phone Number: " + customerResult.getString("CUSTOMER_PHONE")));
+                        document.add(new Paragraph("      "));
+
+                        // Tạo bảng chi tiết sản phẩm
+                        PdfPTable table = new PdfPTable(6); // 6 cột: STT, Mã sản phẩm, Tên sản phẩm, Số lượng sản phẩm, Đơn giá, Thành tiền
+                        table.setWidthPercentage(110);
+
+                        PdfPCell cellNo = new PdfPCell(new Paragraph("No."));
+                        cellNo.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellNo.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        cellNo.setMinimumHeight(10);
+                        table.addCell(cellNo);
+
+                        PdfPCell cellproductid = new PdfPCell(new Paragraph("PRODUCT ID"));
+                        cellproductid.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellproductid.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(cellproductid);
+
+                        PdfPCell cellproductname = new PdfPCell(new Paragraph("PRODUCT NAME"));
+                        cellproductname.setPaddingLeft(10);
+                        cellproductname.setHorizontalAlignment(Element.ALIGN_LEFT);
+                        cellproductname.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(cellproductname);
+
+                        PdfPCell cellquantity = new PdfPCell(new Paragraph(String.valueOf("QUANTITY")));
+                        cellquantity.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellquantity.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(cellquantity);
+
+                        PdfPCell cellprice = new PdfPCell(new Paragraph(String.valueOf("UNIT PRICE")));
+                        cellprice.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellprice.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(cellprice);
+
+                        PdfPCell celltotalprice = new PdfPCell(new Paragraph("TOTAL PRICE"));
+                        celltotalprice.setPaddingLeft(10);
+                        celltotalprice.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celltotalprice.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(celltotalprice);
+
+                        // Lấy thông tin chi tiết sản phẩm từ bảng ORDER_ITEMS
+                        String orderItemsQuery = "SELECT * FROM ORDER_ITEMS WHERE OI_ORDERS_ID = ?";
+                        PreparedStatement orderItemsStatement = connection.prepareStatement(orderItemsQuery);
+                        orderItemsStatement.setString(1, orders.getId());
+                        ResultSet orderItemsResult = orderItemsStatement.executeQuery();
+                        int stt = 1;
+                        while (orderItemsResult.next()) {
+                            String productid = orderItemsResult.getString("OI_PRODUCT_ID");
+                            String productName = ""; // Lấy tên sản phẩm từ bảng sản phẩm
+
+                            Connection connect = JDBCConnection.getJDBCConnection();
+                            query = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = '"+ productid + "'";
+
+                            preparedStatement = connection.prepareStatement(query);
+                            resultSet = preparedStatement.executeQuery();
+
+                            if (resultSet.next()){
+                                productName = resultSet.getString("PRODUCT_NAME");
+                            }
+                            int quantity = orderItemsResult.getInt("OI_QUANTITY");
+                            int price = orderItemsResult.getInt("OI_PRICE");
+                            int totalPrice = quantity * price;
+
+                            // Thêm dòng dữ liệu vào bảng
+                            PdfPCell cellSTT = new PdfPCell(new Paragraph(String.valueOf(stt)));
+                            cellSTT.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cellSTT.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            cellSTT.setMinimumHeight(10);
+                            table.addCell(cellSTT);
+
+                            PdfPCell cellProductID = new PdfPCell(new Paragraph(productid));
+                            cellProductID.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cellProductID.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table.addCell(cellProductID);
+
+                            PdfPCell cellProductName = new PdfPCell(new Paragraph(productName));
+                            cellProductName.setPaddingLeft(10);
+                            cellProductName.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cellProductName.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table.addCell(cellProductName);
+
+                            PdfPCell cellQuantity = new PdfPCell(new Paragraph(String.valueOf(quantity)));
+                            cellQuantity.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cellQuantity.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table.addCell(cellQuantity);
+
+                            PdfPCell cellPrice = new PdfPCell(new Paragraph(String.valueOf(price)));
+                            cellPrice.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cellPrice.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table.addCell(cellPrice);
+
+                            PdfPCell celltotalPrice = new PdfPCell(new Paragraph(String.valueOf(totalPrice)));
+                            celltotalPrice.setPaddingLeft(10);
+                            celltotalPrice.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                            celltotalPrice.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table.addCell(celltotalPrice);
+
+                            stt++;
+                        }
+                        PdfPCell cellTotalOrdertext = new PdfPCell(new Paragraph("TOTAL ORDER"));
+                        cellTotalOrdertext.setColspan(5);
+                        cellTotalOrdertext.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cellTotalOrdertext.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        cellTotalOrdertext.setMinimumHeight(20);
+                        table.addCell(cellTotalOrdertext);
+
+
+                        PdfPCell cellTotalOrder = new PdfPCell(new Paragraph(String.valueOf(orders.getPrice())));
+                        cellTotalOrder.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                        cellTotalOrder.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        table.addCell(cellTotalOrder);
+
+                        // Thêm bảng vào tài liệu PDF
+                        document.add(table);
+
+                        document.close();
+                        displaySuccessful("Invoice has been created successfully.");
+                    } else {
+                        displayError("Error not choosing where to save the PDF file.");
+                    }
+                } else {
+                    displayError("Customer information not found");
+                }
+            } else {
+                displayError("Invoice information not found.");
+            }
+
+            connection.close();
+        } catch (SQLException | DocumentException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -152,7 +152,7 @@ public class AddProductController implements Initializable {
         } else if (!isNumberInteger(quantity)) {
             displayError("Price only number integer");
 
-        } else if (isProductidInDB(id)) {
+        } else if (isProductidInDB(id) && !update) {
             displayError("Product ID is existed in Databse");
 
         } else
@@ -205,7 +205,6 @@ public class AddProductController implements Initializable {
                     " VALUES (?,?,?,?,?,?,?,?)";
 
         }else{
-
             query = "UPDATE `product` SET "
                     + "`PRODUCT_ID`=?,"
                     + "`PRODUCT_NAME`=?,"

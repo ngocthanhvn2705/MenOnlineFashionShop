@@ -16,7 +16,7 @@
             <Image url="@../../Img/MacOS%20Close.png" />
          </image>
       </ImageView>
-      <Button fx:id="saveBtn" layoutX="189.0" layoutY="451.0" mnemonicParsing="false" onAction="#save" prefHeight="0.0" prefWidth="0.0" styleClass="logBtn" stylesheets="@../mainDesign.css">
+      <Button fx:id="saveBtn" layoutX="241.0" layoutY="451.0" mnemonicParsing="false" onAction="#save" prefHeight="0.0" prefWidth="0.0" styleClass="logBtn" stylesheets="@../mainDesign.css">
          <graphic>
             <ImageView fitHeight="44.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
                <image>
