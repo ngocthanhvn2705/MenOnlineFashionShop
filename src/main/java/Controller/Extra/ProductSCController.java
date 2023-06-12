@@ -81,7 +81,9 @@ public class ProductSCController implements Initializable {
     public void setProductSC(Product product1, Shopping_Cart sc, MyListener myListener){
         this.shoppingCart = sc;
         this.product = product1;
-
+        if (shoppingCart.getSizeproduct() == null){
+            shoppingCart.setSizeproduct("FREE SIZE");
+        }
 
         imageView.setImage(product1.getImage());
         imageView.setFitHeight(170);
@@ -159,6 +161,7 @@ public class ProductSCController implements Initializable {
 
     Integer quantitySize()  {
         Integer quantity = 0;
+
         if(!shoppingCart.getSizeproduct().equals("FREE SIZE")) {
             connection = JDBCConnection.getJDBCConnection();
 
