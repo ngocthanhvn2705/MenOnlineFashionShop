@@ -216,6 +216,11 @@ public class CustomerUIController implements Initializable {
     }
 
     public void setItemsSC() throws SQLException {
+        getData.ProductChosenList.clear();
+        getData.SizeProductChosenList.clear();
+        totalLabel.setText(null);
+        saveLabel.setText(null);
+
         myListener = new MyListener() {
             @Override
             public void onClickListener() {
@@ -705,30 +710,34 @@ public class CustomerUIController implements Initializable {
         }
     }
 
-    public void viewOrder(MouseEvent event) throws IOException {
-        if (event.getClickCount() == 2){
-            orders = orderTable.getSelectionModel().getSelectedItem();
-
-            URL url = new File("src/main/java/Views/Extra/UpdateOrders.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(url);
-
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            UpdateOrdersController updateOrdersController = loader.getController();
-            updateOrdersController.setOrderID(orders.getId());
-            updateOrdersController.setStatusLabel(orders.getStatus());
-
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setScene(new Scene(parent));
-            stage.show();
+    public void viewOrderDoubleClick(MouseEvent event) throws IOException {
+        if (event.getClickCount() == 2) {
+            viewOrder(event);
         }
+    }
+
+    public void viewOrder(MouseEvent event) throws IOException {
+        orders = orderTable.getSelectionModel().getSelectedItem();
+        URL url = new File("src/main/java/Views/Extra/UpdateOrders.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(url);
+
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        UpdateOrdersController updateOrdersController = loader.getController();
+        updateOrdersController.setOrderID(orders.getId());
+        updateOrdersController.setStatusLabel(orders.getStatus());
+
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(new Scene(parent));
+        stage.show();
+
     }
 
     public void cancelOrder() throws IOException {

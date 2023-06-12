@@ -134,15 +134,19 @@ public class ShowinformationProduct {
         quantityLabel.setText(product1.getQuantity().toString());
         this.product = product1;
         if(product1.getId().substring(0,2).equals("JW")){
-            sizecomboBox.setPromptText("None");
+            options = FXCollections.observableArrayList("FREE SIZE");
         }else if(product1.getId().substring(0,1).equals("S")){
             options = FXCollections.observableArrayList("40", "41", "42", "43", "44");
         }else{
             options = FXCollections.observableArrayList("S", "M", "L");
         }
         sizecomboBox.setItems(options);
+        SpinnerValueFactory<Integer> valueSpinner;
+        if (product.getQuantity() >0) {
+            valueSpinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, product.getQuantity(), 1);
+        }else
+            valueSpinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, product.getQuantity(), 0);
 
-        SpinnerValueFactory<Integer> valueSpinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, product.getQuantity(), 1);
         amountSpinner.setValueFactory(valueSpinner);
     }
 
@@ -177,7 +181,7 @@ public class ShowinformationProduct {
             displayError("Please Sign in for Add Shopping Cart and Order");
         }else if(product.getQuantity() <=0 ){
             displayError("This product is out of stock");
-        } else if (sizecomboBox.getValue() == null && !product.getId().substring(0,2).equals("JW")) {
+        } else if (sizecomboBox.getValue() == null ) {
             displayError("Please choose size of product");
         } else if (!checkquantitySize(sizecomboBox.getValue().toString())) {
             displayError("The size of Product is out of stock");
@@ -190,7 +194,7 @@ public class ShowinformationProduct {
             preparedStatement = connection.prepareStatement(query1);
             preparedStatement.setString(1, getData.customer.getId());
             preparedStatement.setString(2, product.getId());
-            preparedStatement.setString(3,sizecomboBox.getValue().toString());
+                preparedStatement.setString(3, sizecomboBox.getValue().toString());
             resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
@@ -224,12 +228,18 @@ public class ShowinformationProduct {
     }
 
     boolean checkquantitySize(String size) throws SQLException {
+        if (size.equals("FREE SIZE")){
+            quantity = product.getQuantity();
+            return (product.getQuantity()>0) ;
+        }
+
         connection = JDBCConnection.getJDBCConnection();
 
         query = "SELECT* FROM SIZE WHERE SIZE_PRODUCT_ID= ? AND SIZE_NAME =?";
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1,product.getId());
         preparedStatement.setString(2,size);
+
 
         resultSet = preparedStatement.executeQuery();
         if (resultSet.next()){

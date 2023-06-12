@@ -48,7 +48,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <ComboBox fx:id="sizecomboBox" layoutX="332.0" layoutY="279.0" prefWidth="59.0" promptText="None" />
+      <ComboBox fx:id="sizecomboBox" layoutX="332.0" layoutY="279.0" prefHeight="25.0" prefWidth="98.0" promptText="..." />
       <Label fx:id="sizeLabel" layoutX="277.0" layoutY="276.0" prefHeight="31.0" prefWidth="46.0" styleClass="label-in4product" stylesheets="@../mainDesign.css" text="SIZE" />
       <Label fx:id="amountLabel" layoutX="276.0" layoutY="315.0" prefHeight="31.0" prefWidth="85.0" styleClass="label-in4product" stylesheets="@../mainDesign.css" text="AMOUNT" />
       <Spinner fx:id="amountSpinner" layoutX="373.0" layoutY="318.0" prefHeight="25.0" prefWidth="70.0" />

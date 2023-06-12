@@ -60,6 +60,22 @@ public class ProductSCController implements Initializable {
     Product product;
     Shopping_Cart shoppingCart;
 
+    public void displayError(String message) throws IOException {
+        URL url = new File("src/main/java/Views/Extra/Error.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(url);
+        loader.load();
+
+        ErrorController errorController = loader.getController();
+        errorController.setLabel(message);
+
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(new Scene(parent));
+        stage.show();
+    }
+
 
 
     public void setProductSC(Product product1, Shopping_Cart sc, MyListener myListener){
@@ -73,12 +89,12 @@ public class ProductSCController implements Initializable {
         imageView.setPreserveRatio(false);
         nameLabel.setText(product1.getName());
         priceLabel.setText((new DecimalFormat("#,###").format(product1.getPrice())));
-        if (sc.getSizeproduct() != null) {
-            sizeLabel.setText(sc.getSizeproduct());
+        sizeLabel.setText(sc.getSizeproduct());
+        SpinnerValueFactory<Integer> valueFactory;
+        if (quantitySize()!=0) {
+            valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, quantitySize(), 1);
         }else
-            sizeLabel.setText("NONE");
-
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, quantitySize(),1);
+            valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0, 0);
 
         quantitySpinner.setValueFactory(valueFactory);
         quantitySpinner.getValueFactory().setValue(sc.getAmount());
@@ -86,18 +102,14 @@ public class ProductSCController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 connection = JDBCConnection.getJDBCConnection();
-                if (sc.getSizeproduct()!= null) {
-                    query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
-                }else
-                    query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? ";
+                query = "UPDATE SHOPPING_CART SET SC_AMOUNT= ? WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
                 try {
                     preparedStatement = connection.prepareStatement(query);
 
                     preparedStatement.setInt(1, newValue);
                     preparedStatement.setString(2, getData.customer.getId());
                     preparedStatement.setString(3, product1.getId());
-                    if (sc.getSizeproduct()!= null)
-                        preparedStatement.setString(4, sc.getSizeproduct());
+                    preparedStatement.setString(4, sc.getSizeproduct());
                     preparedStatement.execute();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -147,13 +159,12 @@ public class ProductSCController implements Initializable {
 
     Integer quantitySize()  {
         Integer quantity = 0;
-        if(shoppingCart.getSizeproduct() != null) {
+        if(!shoppingCart.getSizeproduct().equals("FREE SIZE")) {
             connection = JDBCConnection.getJDBCConnection();
 
             query = "SELECT* FROM SIZE WHERE SIZE_PRODUCT_ID= ? AND SIZE_NAME =?";
             try {
                 preparedStatement = connection.prepareStatement(query);
-
                 preparedStatement.setString(1, shoppingCart.getProductid());
                 preparedStatement.setString(2, shoppingCart.getSizeproduct());
 
@@ -166,9 +177,10 @@ public class ProductSCController implements Initializable {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            return quantity;
-        }else
-            return product.getQuantity();
+        }else{
+            quantity = product.getQuantity();
+        }
+        return quantity;
 
     }
 

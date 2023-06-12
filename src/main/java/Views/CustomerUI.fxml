@@ -227,7 +227,7 @@
          </children></AnchorPane>
       <AnchorPane id="order" fx:id="order_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css" visible="false">
          <children>
-            <TableView fx:id="orderTable" layoutX="187.0" layoutY="36.0" onMouseClicked="#viewOrder" prefHeight="416.0" prefWidth="593.0">
+            <TableView fx:id="orderTable" layoutX="187.0" layoutY="36.0" onMouseClicked="#viewOrderDoubleClick" prefHeight="416.0" prefWidth="593.0">
                <columns>
                   <TableColumn fx:id="orderIDCol" prefWidth="60.79997253417969" text="ID" />
                   <TableColumn fx:id="orderDateCol" prefWidth="124.7999267578125" text="DATE" />
