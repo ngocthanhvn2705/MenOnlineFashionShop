@@ -1,16 +1,12 @@
 package Controller;
 import Controller.Extra.ErrorController;
 import Controller.Extra.SuccessfulController;
+import Controller.Extra.ThumbController;
 import Database.JDBCConnection;
-import Models.Customer;
-import Models.Employee;
-import Models.Manager;
 import Models.getData;
 import Models.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +24,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 
 
 import java.io.ByteArrayInputStream;

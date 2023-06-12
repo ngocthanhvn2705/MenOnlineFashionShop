@@ -1,6 +1,5 @@
 package Controller.Extra;
 
-import Controller.ThumbController;
 import Database.JDBCConnection;
 import Main.MyListener;
 import Models.Product;
@@ -145,7 +144,11 @@ public class ProductSCController implements Initializable {
     public void chooseProduct(){
         if (checkBox.isSelected()){
             getData.ProductChosenList.add(shoppingCart.getProductid());
-            getData.SizeProductChosenList.add(shoppingCart.getSizeproduct());
+            if(shoppingCart.getSizeproduct() == null){
+                getData.SizeProductChosenList.add("FREE SIZE");
+            }else {
+                getData.SizeProductChosenList.add(shoppingCart.getSizeproduct());
+            }
         } else if (!checkBox.isSelected()) {
             for(int i = 0; i < getData.ProductChosenList.size(); i++){
                 if (product.getId().equals(getData.ProductChosenList.get(i))){

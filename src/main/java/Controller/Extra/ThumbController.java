@@ -1,14 +1,11 @@
-package Controller;
+package Controller.Extra;
 
-import Controller.Extra.AddVoucherController;
-import Controller.Extra.ShowinformationProduct;
 import Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;

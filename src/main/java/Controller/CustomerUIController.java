@@ -1,14 +1,9 @@
 package Controller;
 
-import Controller.Extra.ErrorController;
-import Controller.Extra.ProductSCController;
-import Controller.Extra.SuccessfulController;
-import Controller.Extra.UpdateOrdersController;
+import Controller.Extra.*;
 import Database.JDBCConnection;
 import Main.MyListener;
 import Models.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,13 +30,11 @@ import javafx.stage.StageStyle;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PipedReader;
-import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-import java.util.jar.JarEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -309,12 +302,18 @@ public class CustomerUIController implements Initializable {
 
         for (int i=0; i<getData.ProductChosenList.size(); i++){
             connection = JDBCConnection.getJDBCConnection();
-            query = "DELETE FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
+            if (!getData.SizeProductChosenList.get(i).equals("FREE SIZE")) {
+                query = "DELETE FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? AND SC_SIZE_PRODUCT = ?";
+            }else {
+                query = "DELETE FROM SHOPPING_CART WHERE SC_CUSTOMER_ID = ? AND SC_PRODUCT_ID=? ";
+            }
 
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, customerlogin.getId());
             preparedStatement.setString(2, getData.ProductChosenList.get(i));
-            preparedStatement.setString(3, getData.SizeProductChosenList.get(i));
+            if (!getData.SizeProductChosenList.get(i).equals("FREE SIZE")) {
+                preparedStatement.setString(3, getData.SizeProductChosenList.get(i));
+            }
             preparedStatement.execute();
 
         }
@@ -647,20 +646,27 @@ public class CustomerUIController implements Initializable {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()){
+                    String query1;
                     Connection connection1 = JDBCConnection.getJDBCConnection();
-                    String query1 = "SELECT * FROM SHOPPING_CART WHERE SC_PRODUCT_ID= ? and SC_SIZE_PRODUCT= ?" +
-                            "and SC_CUSTOMER_ID= ?";
-
+                    if (!getData.SizeProductChosenList.get(i).equals("FREE SIZE")) {
+                        query1 = "SELECT * FROM SHOPPING_CART " +
+                                "WHERE SC_CUSTOMER_ID= ? and SC_PRODUCT_ID= ? and SC_SIZE_PRODUCT= ?";
+                    }else{
+                        query1 = "SELECT * FROM SHOPPING_CART " +
+                                "WHERE SC_CUSTOMER_ID= ? and SC_PRODUCT_ID= ?";
+                    }
                     PreparedStatement pre  = connection1.prepareStatement(query1);
-                    pre.setString(1,getData.ProductChosenList.get(i));
-                    pre.setString(2, getData.SizeProductChosenList.get(i));
-                    pre.setString(3, customerlogin.getId());
+                    pre.setString(1, customerlogin.getId());
+                    pre.setString(2, getData.ProductChosenList.get(i));
+                    if (!getData.SizeProductChosenList.get(i).equals("FREE SIZE")) {
+                        pre.setString(3, getData.SizeProductChosenList.get(i));
+                    }
                     ResultSet rs = pre.executeQuery();
                     if (rs.next()){
                         total+= rs.getInt("SC_PRICE");
                     }
 
-//                    total+= resultSet.getInt("PRODUCT_PRICE");
+//                   total+= resultSet.getInt("PRODUCT_PRICE");
                 }
 
             }
@@ -684,8 +690,8 @@ public class CustomerUIController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        totalLabel.setText(String.valueOf(total-save));
-        saveLabel.setText(String.valueOf(save));
+        totalLabel.setText((new DecimalFormat("#,###").format(total - save)));
+        saveLabel.setText((new DecimalFormat("#,###").format(save)));
     }
 
     public void loadDateOrders() {
