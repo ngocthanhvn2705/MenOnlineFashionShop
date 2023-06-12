@@ -729,7 +729,7 @@ public class CustomerUIController implements Initializable {
         }
 
         UpdateOrdersController updateOrdersController = loader.getController();
-        updateOrdersController.setOrderID(orders.getId());
+        updateOrdersController.setOrderID(orders.getId(), orders.getStatus());
         updateOrdersController.setStatusLabel(orders.getStatus());
 
         Parent parent = loader.getRoot();

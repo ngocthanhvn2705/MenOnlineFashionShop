@@ -68,18 +68,22 @@ public class UpdateOrdersController implements Initializable {
     ObservableList<Order_Items> Order_ItemsList = FXCollections.observableArrayList();
     String query = null;
     String orderid;
+    String status;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
 
-    public void setOrderID(String id){
+    public void setOrderID(String id, String status){
         orderIDLabel.setText(id);
         this.orderid=id;
+        this.status = status;
         refreshOrder_Items();
     }
     public void setStatus(String status){
         statusCombobox.setValue(status);
-
+        if (status.equals("DONE")){
+            statusCombobox.setItems(FXCollections.observableArrayList("DONE"));
+        }
     }
 
     public void setStatusLabel(String status){

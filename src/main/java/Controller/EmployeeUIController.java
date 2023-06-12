@@ -364,7 +364,7 @@ public class EmployeeUIController implements Initializable {
         }
 
         UpdateOrdersController updateOrdersController = loader.getController();
-        updateOrdersController.setOrderID(orders.getId());
+        updateOrdersController.setOrderID(orders.getId(), orders.getStatus());
         updateOrdersController.setStatus(orders.getStatus());
 
         Parent parent = loader.getRoot();
