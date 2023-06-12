@@ -764,7 +764,7 @@ public class CustomerUIController implements Initializable {
 
     public void cancelOrder() throws IOException {
         orders = orderTable.getSelectionModel().getSelectedItem();
-        if (orders.getStatus().equals("CANCELED")) {
+        if (orders.getStatus().equals("PREPARING")) {
             try {
 
                 query = "UPDATE `orders` SET ORDERS_STATUS = 'CANCELED' WHERE ORDERS_ID  = ? and ORDERS_CUSTOMER_ID= ?";
@@ -781,8 +781,11 @@ public class CustomerUIController implements Initializable {
             loadDateOrders();
         }else if(orders.getStatus().equals("DELIVERING")){
             displayError("The order was Delivering. Can't cancel;");
-        }else
+        }else if(orders.getStatus().equals("DONE")){
             displayError("The order was done. Can't Cancel");
+        }else if(orders.getStatus().equals("CANCELED")){
+            displayError("The order was cancelled!");
+        }
     }
 
 

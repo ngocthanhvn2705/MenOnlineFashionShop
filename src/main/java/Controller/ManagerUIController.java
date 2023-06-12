@@ -1154,7 +1154,6 @@ public class ManagerUIController implements Initializable {
                 chart.getData().add(new XYChart.Data(this.resultSet.getString("ORDERS_DATE"),
                                                     this.resultSet.getInt("SUM(ORDERS_PRICE)")));
             }
-
             this.dashboard_incomeChart.getData().add(chart);
         } catch (Exception e) {
             e.printStackTrace();
