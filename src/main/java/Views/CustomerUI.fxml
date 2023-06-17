@@ -117,7 +117,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css" visible="false">
+      <AnchorPane id="Shopping Cart" fx:id="sc_form" layoutX="215.0" layoutY="113.0" prefHeight="592.0" prefWidth="988.0" styleClass="sc-form" stylesheets="@mainDesign.css">
          <children>
             <ScrollPane prefHeight="450.0" prefWidth="988.0" styleClass="scroll-pane-sc" stylesheets="@mainDesign.css">
                <content>
@@ -153,7 +153,7 @@
                </image>
             </ImageView>
          </children></AnchorPane>
-      <AnchorPane id="account" fx:id="account_form" layoutX="215.0" layoutY="114.0" prefHeight="592.0" prefWidth="988.0" styleClass="right-form-white" stylesheets="@mainDesign.css">
+      <AnchorPane id="account" fx:id="account_form" layoutX="215.0" layoutY="114.0" prefHeight="592.0" prefWidth="988.0" styleClass="right-form-white" stylesheets="@mainDesign.css" visible="false">
          <children>
             <TextField fx:id="nameFld" layoutX="165.0" layoutY="87.0" prefHeight="38.0" prefWidth="262.0" styleClass="customer-texfield" stylesheets="@mainDesign.css" />
             <TextField fx:id="genderFld" layoutX="165.0" layoutY="152.0" prefHeight="38.0" prefWidth="262.0" styleClass="customer-texfield" stylesheets="@mainDesign.css" />

@@ -4,6 +4,8 @@ import Controller.Extra.*;
 import Database.JDBCConnection;
 import Models.*;
 import com.itextpdf.text.pdf.PdfPCell;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -267,6 +269,9 @@ public class ManagerUIController implements Initializable {
     Orders orders = null;
     Product product = null;
     Product_receipt receipt = null;
+    String stt= "Sort by Day";
+    @FXML
+    private ComboBox<String> sortCombobox;
     ObservableList<Employee> EmployeeList = FXCollections.observableArrayList();
     ObservableList<Customer> CustomerList = FXCollections.observableArrayList();
     ObservableList<Voucher> VoucherList = FXCollections.observableArrayList();
@@ -1168,8 +1173,13 @@ public class ManagerUIController implements Initializable {
     }
 
     public void dashboardIncomeChart() {
+        String sql;
         this.dashboard_incomeChart.getData().clear();
-        String sql = "SELECT ORDERS_DATE, SUM(ORDERS_PRICE) FROM ORDERS GROUP BY ORDERS_DATE ORDER BY TIMESTAMP(ORDERS_DATE) ASC ";
+        if (stt.equals("Sort by Month")) {
+            sql = "SELECT DATE_FORMAT(ORDERS_DATE, '%Y-%m') AS MONTH, SUM(ORDERS_PRICE) FROM ORDERS GROUP BY MONTH ORDER BY TIMESTAMP(MONTH) ASC";
+        }else {
+            sql = "SELECT ORDERS_DATE, SUM(ORDERS_PRICE) FROM ORDERS GROUP BY ORDERS_DATE ORDER BY TIMESTAMP(ORDERS_DATE) ASC";
+        }
         connection = JDBCConnection.getJDBCConnection();
 
         try {
@@ -1178,8 +1188,16 @@ public class ManagerUIController implements Initializable {
             resultSet = preparedStatement.executeQuery();
 
             while(this.resultSet.next()) {
-                chart.getData().add(new XYChart.Data(this.resultSet.getString("ORDERS_DATE"),
-                                                    this.resultSet.getInt("SUM(ORDERS_PRICE)")));
+                if (stt.equals("Sort by Month")){
+                chart.getData().add(new XYChart.Data(
+                        this.resultSet.getString("MONTH"),
+                        this.resultSet.getInt("SUM(ORDERS_PRICE)")
+                ));} else if (stt.equals("Sort by Day")) {
+                    chart.getData().add(new XYChart.Data(
+                            this.resultSet.getString("ORDERS_DATE"),
+                            this.resultSet.getInt("SUM(ORDERS_PRICE)")
+                    ));
+                }
             }
             this.dashboard_incomeChart.getData().add(chart);
         } catch (Exception e) {
@@ -1366,6 +1384,8 @@ public class ManagerUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         managerlogin = getData.manager;
+
+
         displayUsername();
         startForm();
 
@@ -1387,6 +1407,19 @@ public class ManagerUIController implements Initializable {
         loadDateReceipt();
 
         startDashBoard();
+
+        ObservableList<String> items = FXCollections.observableArrayList(
+                "Sort by Day", "Sort by Month");
+        sortCombobox.setItems(items);
+        sortCombobox.setValue("Sort by Day");
+        sortCombobox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                stt = newValue;
+                startDashBoard();
+            }
+        });
+
     }
 
     public void printInvoice(){

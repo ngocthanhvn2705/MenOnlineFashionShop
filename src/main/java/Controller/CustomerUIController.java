@@ -358,7 +358,9 @@ public class CustomerUIController implements Initializable {
                         && !newpasswordFld.getText().equals(retypenewpasswordFld.getText())){
                 displayError("The passwords do not match");
 
-        }else {
+        }else if(!gender.equals("MALE") || !gender.equals("FEMALE") ){
+            displayError("This gender only MALE or FEMALE");
+        } else{
             confirmAccountForm.setVisible(true);
         }
 
