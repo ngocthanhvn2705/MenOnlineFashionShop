@@ -118,6 +118,8 @@ public class ManagerUIController implements Initializable {
     @FXML
     private AnchorPane manageOrder_form;
     @FXML
+    private AnchorPane confirmFormOrder;
+    @FXML
     private GridPane productGrid;
 
     @FXML
@@ -318,6 +320,7 @@ public class ManagerUIController implements Initializable {
 
     public void cancel() {
         confirmForm.setVisible(false);
+        confirmFormOrder.setVisible(false);
     }
 
     public void confirm() {
@@ -328,6 +331,7 @@ public class ManagerUIController implements Initializable {
             cancelOrder();
         }
         confirmForm.setVisible(false);
+        confirmFormOrder.setVisible(false);
     }
 
     private void loadDateCustomer() {
@@ -511,17 +515,22 @@ public class ManagerUIController implements Initializable {
         searchOrder();
     }
     public void cancelOrderBtn(){
-        confirmForm.setVisible(true);
+        confirmFormOrder.setVisible(true);
     }
 
     public void cancelOrder() {
         try {
             orders = orderTable.getSelectionModel().getSelectedItem();
-            query = "UPDATE `orders` SET ORDERS_STATUS = 'CANCELED' WHERE ORDERS_ID  = '" + orders.getId()+"'";
-            connection = JDBCConnection.getJDBCConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.execute();
-            displaySuccessful("The order was successfully canceled!");
+            if (orders.getStatus().equals("DONE") || orders.getStatus().equals("CANCELED")){
+                displayError("Can't cancel order");
+            }else {
+                query = "UPDATE `orders` SET ORDERS_STATUS = 'CANCELED' WHERE ORDERS_ID  = '" + orders.getId() + "'";
+                connection = JDBCConnection.getJDBCConnection();
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.execute();
+
+                displaySuccessful("The order was successfully canceled!");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(ManagerUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1236,6 +1245,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1254,6 +1264,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: #BAD1C2");
@@ -1272,6 +1283,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1290,6 +1302,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1308,6 +1321,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1326,6 +1340,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(true);
             recieptProduct_Form.setVisible(false);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1344,6 +1359,7 @@ public class ManagerUIController implements Initializable {
             manageVoucher_form.setVisible(false);
             recieptProduct_Form.setVisible(true);
             confirmForm.setVisible(false);
+            confirmFormOrder.setVisible(false);
 
             dashboardBtn.setStyle("-fx-background-color: transparent");
             manageEmployeeBtn.setStyle("-fx-background-color: transparent");
@@ -1365,6 +1381,7 @@ public class ManagerUIController implements Initializable {
         manageVoucher_form.setVisible(false);
         recieptProduct_Form.setVisible(false);
         confirmForm.setVisible(false);
+        confirmFormOrder.setVisible(false);
 
         dashboardBtn.setStyle("-fx-background-color: #BAD1C2");
         manageEmployeeBtn.setStyle("-fx-background-color: transparent");

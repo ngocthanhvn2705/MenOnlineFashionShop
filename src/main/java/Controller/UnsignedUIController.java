@@ -288,7 +288,18 @@ public class UnsignedUIController implements Initializable {
             preparedStatement.setString(7, emailFld.getText());
             preparedStatement.execute();
 
+            nameFld.setText(null);
+            usernameSignupFld.getText();
+            birthFld.setValue(null);
+            addressFld.setText(null);
+            phoneFld.setText(null);
+            emailFld.setText(null);
+            passwordSignupFld.setText(null);
+            genderMale.setSelected(false);
+            genderFemale.setSelected(false);
+
             displaySuccessful("You have successfully signed up !!!");
+            exitSignin(event);
         }
     }
 
@@ -304,7 +315,7 @@ public class UnsignedUIController implements Initializable {
         }
     }
     @FXML
-    public void searchProduct(KeyEvent event) throws MalformedURLException {
+    public void searchProduct(KeyEvent event) throws IOException {
         if (event.getCode() == KeyCode.ENTER) {
             productGrid.setDisable(true);
             productGrid.setDisable(false);
@@ -361,6 +372,10 @@ public class UnsignedUIController implements Initializable {
                 if (product2.getName().toLowerCase().contains(searchProductFLd.getText().toLowerCase())) {
                     ProductListSearch.add(product2);
                 }
+            }
+
+            if(ProductListSearch.isEmpty()){
+                displayError("NOT FOUND PRODUCT");
             }
 
             int columns = 1;

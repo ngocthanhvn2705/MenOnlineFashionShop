@@ -399,7 +399,7 @@ public class CustomerUIController implements Initializable {
     }
 
     @FXML
-    public void searchProduct(KeyEvent event) throws MalformedURLException {
+    public void searchProduct(KeyEvent event) throws IOException {
         if (event.getCode() == KeyCode.ENTER) {
             productGrid.setDisable(true);
             productGrid.setDisable(false);
@@ -456,6 +456,9 @@ public class CustomerUIController implements Initializable {
                 if (product2.getName().toLowerCase().contains(searchProductFLd.getText().toLowerCase())) {
                     ProductListSearch.add(product2);
                 }
+            }
+            if(ProductListSearch.isEmpty()){
+                displayError("NOT FOUND PRODUCT");
             }
 
             int columns = 1;
@@ -619,10 +622,11 @@ public class CustomerUIController implements Initializable {
             prepared.execute();
 
         }
+
         displaySuccessful("Your cart has been successfully ordered. ");
         getData.ProductChosenList.clear();
         getData.ProductChosenList.clear();
-
+        setItemsSC();
     }
 
     @FXML
