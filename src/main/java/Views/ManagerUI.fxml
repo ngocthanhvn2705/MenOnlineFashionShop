@@ -174,7 +174,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane id="manageOrder" fx:id="manageOrder_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
+      <AnchorPane id="manageOrder" fx:id="manageOrder_form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
          <children>
             <TextField fx:id="searchOrderFld" layoutX="182.0" layoutY="14.0" prefHeight="38.0" prefWidth="500.0" promptText="     Search" styleClass="search-texfield" stylesheets="@mainDesign.css" />
             <ImageView fitHeight="26.0" fitWidth="38.0" layoutX="188.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -206,7 +206,7 @@
                   <TableColumn fx:id="orderCustomerIDCol" prefWidth="141.60003662109375" text="CUSTOMER_ID" />
                   <TableColumn fx:id="orderStatusCol" prefWidth="146.4000244140625" text="STATUS" />
                   <TableColumn fx:id="orderVoucherIDCol" prefWidth="124.79998779296875" text="VOUCHER_ID" />
-                  <TableColumn fx:id="orderDateCol" prefWidth="124.7999267578125" text="DATE" />
+                  <TableColumn fx:id="orderDateCol" prefWidth="124.7999267578125" sortType="DESCENDING" text="DATE" />
                   <TableColumn fx:id="orderPriceCol" prefWidth="138.4000122070313" text="PRICE ($)" />
                </columns>
             </TableView>
@@ -302,12 +302,12 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane id="Reciept Product" fx:id="recieptProduct_Form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0" visible="false">
+      <AnchorPane id="Reciept Product" fx:id="recieptProduct_Form" layoutX="215.0" layoutY="37.0" prefHeight="666.0" prefWidth="988.0">
          <children>
             <TableView fx:id="receiptTable" layoutX="203.0" layoutY="146.0" prefHeight="446.0" prefWidth="546.0">
               <columns>
                 <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="dateCol" prefWidth="131.0" text="DATE" />
+                <TableColumn fx:id="dateCol" prefWidth="131.0" sortType="DESCENDING" text="DATE" />
                   <TableColumn fx:id="productidCol" prefWidth="147.0" text="PRODUCT ID" />
                   <TableColumn fx:id="quantityCol" prefWidth="76.0" text="QUANTITY" />
                   <TableColumn fx:id="priceCol" prefWidth="116.0" text="PRICE ($)" />
