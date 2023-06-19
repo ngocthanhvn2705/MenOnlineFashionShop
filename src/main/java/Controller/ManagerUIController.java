@@ -272,6 +272,9 @@ public class ManagerUIController implements Initializable {
     String stt= "Sort by Day";
     @FXML
     private ComboBox<String> sortCombobox;
+    String status = "PREPARING";
+    @FXML
+    private ComboBox<String> statusCombobox;
     ObservableList<Employee> EmployeeList = FXCollections.observableArrayList();
     ObservableList<Customer> CustomerList = FXCollections.observableArrayList();
     ObservableList<Voucher> VoucherList = FXCollections.observableArrayList();
@@ -458,7 +461,11 @@ public class ManagerUIController implements Initializable {
         try {
             OrdersList.clear();
 
-            query = "SELECT * FROM `orders`";
+            if(status.equals("ALL")) {
+                query = "SELECT * FROM `orders`";
+            }else{
+                query = "SELECT * FROM `orders` WHERE ORDERS_STATUS = '" + status + "'";
+            }
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
@@ -1417,6 +1424,19 @@ public class ManagerUIController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 stt = newValue;
                 startDashBoard();
+            }
+        });
+
+        ObservableList<String> option = FXCollections.observableArrayList(
+                "PREPARING", "DELIVERING", "DONE", "CANCELED", "ALL");
+        statusCombobox.setItems(option);
+        statusCombobox.setValue("PREPARING");
+        statusCombobox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                status = newValue;
+                refreshOrder();
+                loadDateOrders();
             }
         });
 

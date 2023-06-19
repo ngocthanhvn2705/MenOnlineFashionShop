@@ -148,7 +148,7 @@ public class CustomerUIController implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private AnchorPane main_form;
-    String voucher = null;
+    String voucher = "NONE";
     String query = null;
     Connection connection = null;
     PreparedStatement preparedStatement = null;

@@ -7,6 +7,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -169,6 +171,9 @@ public class EmployeeUIController implements Initializable {
     Voucher voucher = null;
     Orders orders = null;
     Product product = null;
+    String status = "PREPARING";
+    @FXML
+    private ComboBox<String> statusCombobox;
     ObservableList<Customer> CustomerList = FXCollections.observableArrayList();
     ObservableList<Orders> OrdersList = FXCollections.observableArrayList();
     ObservableList<Product> ProductList = FXCollections.observableArrayList();
@@ -348,7 +353,11 @@ public class EmployeeUIController implements Initializable {
         try {
             OrdersList.clear();
 
-            query = "SELECT * FROM `orders`";
+            if(status.equals("ALL")) {
+                query = "SELECT * FROM `orders`";
+            }else{
+                query = "SELECT * FROM `orders` WHERE ORDERS_STATUS = '" + status + "'";
+            }
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
@@ -712,6 +721,19 @@ public class EmployeeUIController implements Initializable {
 
         loadDateProduct();
         searchProduct();
+
+        ObservableList<String> option = FXCollections.observableArrayList(
+                "PREPARING", "DELIVERING", "DONE", "CANCELED", "ALL");
+        statusCombobox.setItems(option);
+        statusCombobox.setValue("PREPARING");
+        statusCombobox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                status = newValue;
+                refreshOrder();
+                loadDateOrders();
+            }
+        });
     }
     public void printInvoice(){
         try {
