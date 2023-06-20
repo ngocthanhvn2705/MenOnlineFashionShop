@@ -641,8 +641,9 @@ public class CustomerUIController implements Initializable {
 
     public void setTotalSaveLabel(){
         Integer total = 0;
-        Integer save = 0;
+        Double save = 0.0;
         Integer amount = 0;
+        String type= null;
         try {
 
             for (int i=0;i < getData.ProductChosenList.size(); i++){
@@ -691,7 +692,8 @@ public class CustomerUIController implements Initializable {
                 preparedStatement.setString(2, "INUSE");
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    save = resultSet.getInt("VOUCHER_VALUE");
+                    save = resultSet.getDouble("VOUCHER_VALUE");
+                    type = resultSet.getString("VOUCHER_TYPE");
                 }
             }
 
@@ -699,9 +701,19 @@ public class CustomerUIController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        if (type!= null) {
+            if (type.equals("SUBTRACT")) {
+                totalLabel.setText((new DecimalFormat("#,###").format(total - save)));
+                saveLabel.setText((new DecimalFormat("#,###").format(save)));
+            } else if (type.equals("DIVIDE")) {
+                totalLabel.setText((new DecimalFormat("#,###").format(total / save)));
+                saveLabel.setText((new DecimalFormat("#,###").format(total - (total / save))));
+            }
+        }else{
+            totalLabel.setText((new DecimalFormat("#,###").format(total - save)));
+            saveLabel.setText((new DecimalFormat("#,###").format(save)));
+        }
 
-        totalLabel.setText((new DecimalFormat("#,###").format(total - save)));
-        saveLabel.setText((new DecimalFormat("#,###").format(save)));
     }
 
     public void loadDateOrders() {

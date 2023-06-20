@@ -351,7 +351,8 @@ public class EmployeeUIController implements Initializable {
         orderVoucherIDCol.setCellValueFactory(new PropertyValueFactory<>("voucher_id"));
         orderDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         orderPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-
+        orderDateCol.setSortType(TableColumn.SortType.DESCENDING);
+        orderTable.getSortOrder().add(orderDateCol);
     }
     public void refreshOrder() {
         try {
