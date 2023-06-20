@@ -570,63 +570,67 @@ public class CustomerUIController implements Initializable {
 
     @FXML
     public void orderSC() throws SQLException, IOException {
-        connection = JDBCConnection.getJDBCConnection();
-        query = "INSERT INTO ORDERS ( ORDERS_CUSTOMER_ID, ORDERS_STATUS, ORDERS_VOUCHER_ID, ORDERS_DATE, ORDERS_PRICE) " +
-                "VALUES (?,?,?, CURDATE() , 0) ";
-
-        preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1,customerlogin.getId());
-        preparedStatement.setString(2, "PREPARING");
-        preparedStatement.setString(3,voucher);
-        preparedStatement.execute();
-
-        getData.setOrderid();
-
-
-        connection = JDBCConnection.getJDBCConnection();
-        query = "INSERT INTO ORDER_ITEMS (OI_ORDERS_ID, OI_PRODUCT_ID, OI_QUANTITY, OI_SIZE, OI_PRICE)" +
-                "VALUES (?,?, ?, ?, 0)";
-
-
-        for (int i=0; i < getData.ProductChosenList.size(); i++){
-            Integer quantity = 0;
-            Connection con = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT * FROM SHOPPING_CART " +
-                    "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
-
-            PreparedStatement pre = con.prepareStatement(sql);
-            pre.setString(1, customerlogin.getId());
-            pre.setString(2, getData.ProductChosenList.get(i));
-            pre.setString(3, getData.SizeProductChosenList.get(i));
-            resultSet = pre.executeQuery();
-
-            if (resultSet.next()){
-                quantity = resultSet.getInt("SC_AMOUNT");
-            }
+        if (!getData.ProductChosenList.isEmpty()) {
+            connection = JDBCConnection.getJDBCConnection();
+            query = "INSERT INTO ORDERS ( ORDERS_CUSTOMER_ID, ORDERS_STATUS, ORDERS_VOUCHER_ID, ORDERS_DATE, ORDERS_PRICE) " +
+                    "VALUES (?,?,?, CURDATE() , 0) ";
 
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, getData.Orderid);
-            preparedStatement.setString(2, getData.ProductChosenList.get(i));
-            preparedStatement.setInt(3, quantity);
-            preparedStatement.setString(4, getData.SizeProductChosenList.get(i));
+            preparedStatement.setString(1, customerlogin.getId());
+            preparedStatement.setString(2, "PREPARING");
+            preparedStatement.setString(3, voucher);
             preparedStatement.execute();
 
-            Connection connect = JDBCConnection.getJDBCConnection();
-            sql = "DELETE FROM SHOPPING_CART " +
-                    "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
+            getData.setOrderid();
 
-            PreparedStatement prepared = con.prepareStatement(sql);
-            prepared.setString(1, customerlogin.getId());
-            prepared.setString(2, getData.ProductChosenList.get(i));
-            prepared.setString(3, getData.SizeProductChosenList.get(i));
-            prepared.execute();
 
+            connection = JDBCConnection.getJDBCConnection();
+            query = "INSERT INTO ORDER_ITEMS (OI_ORDERS_ID, OI_PRODUCT_ID, OI_QUANTITY, OI_SIZE, OI_PRICE)" +
+                    "VALUES (?,?, ?, ?, 0)";
+
+
+            for (int i = 0; i < getData.ProductChosenList.size(); i++) {
+                Integer quantity = 0;
+                Connection con = JDBCConnection.getJDBCConnection();
+                String sql = "SELECT * FROM SHOPPING_CART " +
+                        "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
+
+                PreparedStatement pre = con.prepareStatement(sql);
+                pre.setString(1, customerlogin.getId());
+                pre.setString(2, getData.ProductChosenList.get(i));
+                pre.setString(3, getData.SizeProductChosenList.get(i));
+                resultSet = pre.executeQuery();
+
+                if (resultSet.next()) {
+                    quantity = resultSet.getInt("SC_AMOUNT");
+                }
+
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, getData.Orderid);
+                preparedStatement.setString(2, getData.ProductChosenList.get(i));
+                preparedStatement.setInt(3, quantity);
+                preparedStatement.setString(4, getData.SizeProductChosenList.get(i));
+                preparedStatement.execute();
+
+                Connection connect = JDBCConnection.getJDBCConnection();
+                sql = "DELETE FROM SHOPPING_CART " +
+                        "WHERE SC_CUSTOMER_ID= ? AND  SC_PRODUCT_ID = ? AND SC_SIZE_PRODUCT = ?";
+
+                PreparedStatement prepared = con.prepareStatement(sql);
+                prepared.setString(1, customerlogin.getId());
+                prepared.setString(2, getData.ProductChosenList.get(i));
+                prepared.setString(3, getData.SizeProductChosenList.get(i));
+                prepared.execute();
+
+            }
+
+            displaySuccessful("Your cart has been successfully ordered. ");
+            getData.ProductChosenList.clear();
+            getData.ProductChosenList.clear();
+            setItemsSC();
+        }else{
+            displayError("Please choose Product need to be ordered");
         }
-
-        displaySuccessful("Your cart has been successfully ordered. ");
-        getData.ProductChosenList.clear();
-        getData.ProductChosenList.clear();
-        setItemsSC();
     }
 
     @FXML
